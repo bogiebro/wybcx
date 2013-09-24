@@ -4,6 +4,7 @@ html(ng-app="myApp")
     title= title
     link(rel='stylesheet', href="csslib/bootstrap.min.css")
     link(rel='stylesheet', href="csslib/bootstrap-responsive.min.css")
+    link(rel='stylesheet', href="css/style.css")
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
     script(src="/jslib/bootstrap.min.js")
     script(src="/jslib/utils.min.js")
@@ -11,5 +12,13 @@ html(ng-app="myApp")
     script.
         var myAppModule = angular.module("myApp", []);
         app = angular.module("myApp", ['ui.bootstrap', 'ui.keypress']);
-  body
-    block content
+  body(ng-controller="MainCtrl")
+    img(src="img/goat.png").atleft
+    tabset.atright
+        tab(heading="listen")
+        tab(heading="shows")
+        tab(heading="blog")
+        tab(heading="zine")
+    div(class="container middle")
+        block content
+    script(src="js/main.js")

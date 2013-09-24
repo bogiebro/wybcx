@@ -1,0 +1,15 @@
+doctype 5
+html(ng-app="myApp")
+  head
+    title= title
+    link(rel='stylesheet', href="csslib/bootstrap.min.css")
+    link(rel='stylesheet', href="csslib/bootstrap-responsive.min.css")
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
+    script(src="/jslib/bootstrap.min.js")
+    script(src="/jslib/utils.min.js")
+    block csscontent
+    script.
+        var myAppModule = angular.module("myApp", []);
+        app = angular.module("myApp", ['ui.bootstrap', 'ui.keypress']);
+  body
+    block content

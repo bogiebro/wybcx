@@ -28,5 +28,12 @@ if ('development' == app.get('env')) {
 
 app.get('/', handlers.index);
 
+process.on('message', function(message) {
+ if (message === 'shutdown') {
+   process.exit(0);
+ }
+});
+
 http.createServer(app).listen(app.get('port'), function() {
+  if (process.send) process.send('online');
   console.log('Express server listening on port ' + app.get('port'))});

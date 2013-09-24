@@ -5,7 +5,6 @@ Hosts
 
 Deploying
 =========
-  - git push ssh://github.com/bogiebro/wybc to share code
   - git push ssh://elena/home/node/wybcx to deploy code
   - git's post-recieve hook clones the repo, then runs *naught deploy*
   - naught is initialized on startup by upstart

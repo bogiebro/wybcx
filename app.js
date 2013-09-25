@@ -3,8 +3,9 @@ var express = require('express');
 var handlers = require('./handlers');
 var http = require('http');
 var path = require('path');
-
 var app = express();
+app.use(require('connect-assets')());
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);

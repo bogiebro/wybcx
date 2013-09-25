@@ -10,6 +10,7 @@
     "jade": "*",
     "sequelize": "*",
     "pg": "*",
-    "connect-assets": "*"
+    "connect-assets": "*",
+    "stylus": "*"
   }
 }

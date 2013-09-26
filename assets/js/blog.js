@@ -1,0 +1,2 @@
+function BlogCtrl ($scope, $http) {
+}

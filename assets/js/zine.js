@@ -1,0 +1,2 @@
+function ZineCtrl ($scope, $http) {
+}

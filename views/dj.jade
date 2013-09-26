@@ -1,15 +1,12 @@
 doctype 5
-html(ng-app="myApp")
+html(ng-app="djApp")
   head
-    title WYBC Yale Radio
+    title WYBC DJ Dashboard
     link(rel='stylesheet', href="csslib/bootstrap.min.css")
     link(rel='stylesheet', href="csslib/bootstrap-responsive.min.css")
-    link(rel="shortcut icon", type="image/x-icon", href="/img/goat.png")
-    != css('style')
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
     script(src="/jslib/bootstrap.min.js")
     script(src="/jslib/utils.min.js")
-    != js('routing')
     != js('main')
   body(ng-controller="MainCtrl")
     img(src="img/goat.png", class="atleft hideme")

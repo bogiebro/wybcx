@@ -1,3 +1,5 @@
-// to minify, set NODE_ENV=production
-function MainCtrl ($scope, $http) {
+function MainCtrl ($scope, $location) {
+	$scope.doit = function(route) {
+		$location.path(route);
+	}
 }

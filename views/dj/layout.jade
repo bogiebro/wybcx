@@ -1,0 +1,15 @@
+doctype 5
+html
+  head
+    title WYBC Yale Radio
+    link(rel='stylesheet', href="csslib/bootstrap.min.css")
+    link(rel='stylesheet', href="csslib/bootstrap-responsive.min.css")
+    link(rel="shortcut icon", type="image/x-icon", href="/img/goat.png")
+    != css('djheader')
+    != css('utilities')
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
+    script(src="/jslib/bootstrap.min.js")
+    script(src="/jslib/utils.min.js")
+  body
+    h1(class="wybclogo hideme") WYBC DJ
+    block content

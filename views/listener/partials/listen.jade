@@ -1,9 +1,11 @@
+!= css('listen')
+!= css('chat')
 div(class="container")
   h2 Songs on Screen
-  h5 with Sam and Peter
-  p.mute mute
+  h5.smallhideme with Sam and Peter
+  p(class="{{muting}}", ng-click="muteme()") mute
   .mid
-    div(scrollglue class="well fixedheight")
+    div(scrollglue class="well chatbox")
         .chatitem <b>Dickface</b>
             span.says this is some content
         .chatitem <b>Mojo</b>

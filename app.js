@@ -1,16 +1,20 @@
 // Module dependencies
 var express = require('express');
-var handlers = require('./handlers');
 var http = require('http');
 var path = require('path');
 var app = express();
 app.use(require('connect-assets')());
 
+// Handler dependencies
+var listener = require('./handlers/listener');
+var dj = require('./handlers/dj');
+var admin = require('./handlers/admin');
+var json = require('./json');
 
+// Set up express
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -25,9 +29,12 @@ if ('development' == app.get('env')) {
 };
 
 // html responses
-app.get('/', handlers.index);
-app.get('/dj', handlers.dj);
-app.get('/partials/:name', handlers.partials);
+app.get('/', listener.index);
+app.get('/listener/partials/:name', listener.partials);
+app.get('/dj', dj.dash);
+app.get('/onair', dj.onair);
+app.get('/blog', dj.blog);
+app.get('/prog', admin.prog);
 
 // handle deployment
 process.on('message', function(message) {

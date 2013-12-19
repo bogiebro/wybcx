@@ -2,7 +2,8 @@ extends layout
 
 block content
     != css('dashboard')
-    div.mid
+    != js('dashboard')
+    div.mid(ng-controller="DashCtrl")
         div.show
             div.info
             img(src="/showpics/00000.jpg").showpic
@@ -21,12 +22,12 @@ block content
                 div.cthing
                     a Pre-record
                 div.cthing
-                    a Can't make it
+                    a(ng-click="sendsub()") Can't make it
             div.promotion
                 span.pthing
                     a Blog
                 span.pthing
-                    a Promo
+                    a(ng-click="promo = true") Promo
         div.show
             div.info
             img(src="/showpics/00000.jpg").showpic
@@ -51,5 +52,17 @@ block content
                     a Blog
                 span.pthing
                     a Promo
-
+        div(modal="showsent", close="showsent = false")
+            div.modal-header
+                h3 We sent an email
+            div.modal-body If someone subs your show, we'll give you a heads up.
+            div.modal-footer
+        div(modal="promo", close="promo = false")
+            div.modal-header
+                h3 Upload a promo
+            div.modal-body
+                div(ng-file-drop="onFileSelect($files)").well
+                    span(ng-show="!progress") Drag to upload
+                    span(ng-show="progress") Uploaded: {{progress}}%
+            div.modal-footer
 

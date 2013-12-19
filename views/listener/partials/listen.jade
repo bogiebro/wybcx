@@ -1,65 +1,14 @@
 != css('listen')
 != css('chat')
-div(class="container")
-  h2 Songs on Screen
-  h5.smallhideme with Sam and Peter
-  p(class="{{muting}}", ng-click="muteme()") mute
-  .mid
-    div(scrollglue class="well chatbox")
-        .chatitem <b>Dickface</b>
-            span.says this is some content
-        .chatitem <b>Mojo</b>
-            span.says go fuck yourself
-        .announce Now Playing: Great Song
-        .chatitem <b>Harry</b>
-            span.says What's up guys
-        .chatitem <b>Sally</b>
-            span.says I love you
-        .chatitem <b>Dickface</b>
-            span.says this is some content
-        .chatitem <b>Mojo</b>
-            span.says go fuck yourself
-        .announce Now Playing: Great Song
-        .chatitem <b>Harry</b>
-            span.says What's up guys
-        .chatitem <b>Sally</b>
-            span.says I love you
-        .chatitem <b>Dickface</b>
-            span.says this is some content
-        .chatitem <b>Mojo</b>
-            span.says go fuck yourself
-        .announce Now Playing: Great Song
-        .chatitem <b>Harry</b>
-            span.says What's up guys
-        .chatitem <b>Sally</b>
-            span.says I love you
-        .chatitem <b>Dickface</b>
-            span.says this is some content
-        .chatitem <b>Mojo</b>
-            span.says go fuck yourself
-        .announce Now Playing: Great Song
-        .chatitem <b>Harry</b>
-            span.says What's up guys
-        .chatitem <b>Sally</b>
-            span.says I love you
-        .chatitem <b>Dickface</b>
-            span.says this is some content
-        .chatitem <b>Mojo</b>
-            span.says go fuck yourself
-        .announce Now Playing: Great Song
-        .chatitem <b>Harry</b>
-            span.says What's up guys
-        .chatitem <b>Sally</b>
-            span.says I love you
-        .chatitem <b>Dickface</b>
-            span.says this is some content
-        .chatitem <b>Mojo</b>
-            span.says go fuck yourself
-        .announce Now Playing: Great Song
-        .chatitem <b>Harry</b>
-            span.says What's up guys
-        .chatitem <b>Sally</b>
-            span.says I love you
+h2 Songs on Screen
+h5.smallhideme with Sam and Peter
+p(class="{{muting}}", ng-click="muteme()") mute
+div(scroll-glue, class="well chatbox")
+    div(ng-repeat="chat in chats")
+        div(ng-switch="chat.type")
+            .chatitem(ng-switch-when="chat") <b>{{chat.speaker}}</b>
+                span.says {{chat.content}}
+            .announce(ng-switch-when="announce") {{chat.content}}
 
-    form(class="navbar-form")
-        input(type="text", placeholder="Chat about the show", class="input-block-level")
+form(class="navbar-form")
+    input(type="text", placeholder="Chat about the show", class="input-block-level")

@@ -1,5 +1,5 @@
 doctype 5
-html(ng-app="myApp")
+html(ng-app="listenApp")
   head
     title WYBC Yale Radio
     link(rel='stylesheet', href="csslib/bootstrap.min.css")
@@ -7,11 +7,12 @@ html(ng-app="myApp")
     link(rel="shortcut icon", type="image/x-icon", href="/img/goat.png")
     != css('header')
     != css('utilities')
-    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js")
-    script(src="/jslib/bootstrap.min.js")
-    script(src="/jslib/utils.min.js")
+    
+    script(src="/bower_components/angular/angular.min.js")
+    script(src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
+    script(src="/socket.io/socket.io.js")
+    script(src="/bower_components/angular-socket-io/socket.js")
     != js('listenroute')
-    != js('listenmain')
   body(ng-controller="MainCtrl")
     img(src="img/goat.png", class="atleft bighideme")
     h1(class="wybclogo midhideme") WYBC
@@ -20,4 +21,5 @@ html(ng-app="myApp")
         tab(heading="shows", select="doit('/shows')")
         tab(heading="blog", select="doit('/blog')")
         tab(heading="zine", select="doit('/zine')")
-    div(ng-view)
+    div.container
+        div(ng-view)

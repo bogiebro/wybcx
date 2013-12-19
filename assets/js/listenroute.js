@@ -1,5 +1,5 @@
 //= require listenshows listenzine listenchat listenblog scrollglue
-angular.module("myApp", ['ui.bootstrap', 'ui.keypress', 'luegg.directives']).
+angular.module("listenApp", ['ui.bootstrap', 'luegg.directives', 'btford.socket-io']).
 config(function($routeProvider) {
     $routeProvider.
       when('/', {controller:ListenCtrl, templateUrl:'listener/partials/listen'}).
@@ -8,3 +8,9 @@ config(function($routeProvider) {
       when('/zine', {controller:ZineCtrl, templateUrl:'listener/partials/zine'}).
       otherwise({redirectTo: '/'});
 });
+
+function MainCtrl ($scope, $location) {
+	$scope.doit = function(route) {
+		$location.path(route);
+	}
+}

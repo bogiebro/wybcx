@@ -1,65 +1,26 @@
 extends layout
 
 block content
+    != js('onair')
     != css('chat')
-    !=css('onair')
-    div(class="container")
+    != css('onair')
+    div(class="container", ng-controller="ChatCtrl")
         .mid
-            div(scrollglue class="well chatbox")
-                .chatitem <b>Dickface</b>
-                    span.says this is some content
-                .chatitem <b>Mojo</b>
-                    span.says go fuck yourself
-                .announce Now Playing: Great Song
-                .chatitem <b>Harry</b>
-                    span.says What's up guys
-                .chatitem <b>Sally</b>
-                    span.says I love you
-                .chatitem <b>Dickface</b>
-                    span.says this is some content
-                .chatitem <b>Mojo</b>
-                    span.says go fuck yourself
-                .announce Now Playing: Great Song
-                .chatitem <b>Harry</b>
-                    span.says What's up guys
-                .chatitem <b>Sally</b>
-                    span.says I love you
-                .chatitem <b>Dickface</b>
-                    span.says this is some content
-                .chatitem <b>Mojo</b>
-                    span.says go fuck yourself
-                .announce Now Playing: Great Song
-                .chatitem <b>Harry</b>
-                    span.says What's up guys
-                .chatitem <b>Sally</b>
-                    span.says I love you
-                .chatitem <b>Dickface</b>
-                    span.says this is some content
-                .chatitem <b>Mojo</b>
-                    span.says go fuck yourself
-                .announce Now Playing: Great Song
-                .chatitem <b>Harry</b>
-                    span.says What's up guys
-                .chatitem <b>Sally</b>
-                    span.says I love you
-                .chatitem <b>Dickface</b>
-                    span.says this is some content
-                .chatitem <b>Mojo</b>
-                    span.says go fuck yourself
-                .announce Now Playing: Great Song
-                .chatitem <b>Harry</b>
-                    span.says What's up guys
-                .chatitem <b>Sally</b>
-                    span.says I love you
-                .chatitem <b>Dickface</b>
-                    span.says this is some content
-                .chatitem <b>Mojo</b>
-                    span.says go fuck yourself
-                .announce Now Playing: Great Song
-                .chatitem <b>Harry</b>
-                    span.says What's up guys
-                .chatitem <b>Sally</b>
-                    span.says I love you
-
-            form(class="navbar-form")
-                input(type="text", placeholder="Chat about the show", class="input-block-level")
+            div(scroll-glue, class="well chatbox")
+                div(ng-repeat="chat in chats")
+                    div(ng-switch="chat.type")
+                        .chatitem(ng-switch-when="chat") <b>{{chat.speaker}}</b>
+                            span.says {{chat.content}}
+                        .announce(ng-switch-when="announce") {{chat.content}}
+            tabset
+                tab(heading="chat")
+                    form
+                        input(type="text", placeholder="Chat about the show", class="input-block-level")
+                tab(heading="log a song")
+                    form
+                        input(type="text", placeholder="Song, Artist, Album", class="input-block-level")
+                tab(heading="soundboard")
+                    div.sounds
+                        a.wellspaced WYBC Promo
+                        a.wellspaced Show Promo
+                        a.wellspaced Sting

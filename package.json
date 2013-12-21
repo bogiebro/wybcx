@@ -20,9 +20,10 @@
     "ngmin-uglify-js-brunch": "~1.7.2",
     "stylus-brunch": "*",
     "jade-angularjs-brunch": "*",
-    "brunch": "1.x"
+    "brunch": "1.x",
+    "bower": "1.2.7"
   },
   "scripts": {
-    "postinstall": "brunch build --production"
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/brunch/bin/brunch build --production"
    }
 }

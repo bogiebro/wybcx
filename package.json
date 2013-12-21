@@ -19,7 +19,7 @@
     "ngmin-uglify-js-brunch": "~1.7.2",
     "stylus-brunch": "*",
     "jade-angularjs-brunch": "*",
-    "brunch": 1.x"
+    "brunch": "1.x"
   },
   "scripts": {
     "postinstall": "brunch build --optimize"

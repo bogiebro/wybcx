@@ -25,4 +25,6 @@ exports.config =
               '.compile-jade': /^app/
     plugins:
         jade:
-            pretty: yes
+            pretty: no
+        uglify:
+              mangle: false

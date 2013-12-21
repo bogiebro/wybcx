@@ -1,5 +1,5 @@
 app = angular.module("djApp", ['ui.bootstrap',
-		'angularFileUpload', 'luegg.directives', 'app.dj.templates'])
+        'angularFileUpload', 'luegg.directives', 'app.dj.templates'])
 
 app.config(($routeProvider)->
     $routeProvider.

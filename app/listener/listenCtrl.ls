@@ -1,4 +1,4 @@
-@ListenCtrl = ($scope, $rootScope, $http, socket)->
+@ListenCtrl = ($scope, $http, socket)->
 	$scope.glued = true
 	$scope.muting = 'nomute'
 	$scope.chats = []

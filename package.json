@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "LiveScript-brunch": "1.5.x",
     "express": "3.3.5",
     "jade": "*",
     "sequelize": "*",
@@ -22,6 +23,6 @@
     "brunch": "1.x"
   },
   "scripts": {
-    "postinstall": "brunch build --optimize"
+    "postinstall": "brunch build --production"
    }
 }

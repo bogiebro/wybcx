@@ -1,6 +1,6 @@
 app = angular.module("listenApp", [
-	'ui.bootstrap', 'luegg.directives', 'btford.socket-io',
-	'app.listener.templates'])
+    'ui.bootstrap', 'luegg.directives', 'btford.socket-io',
+    'app.listener.templates'])
 
 app.config(($routeProvider)->
     $routeProvider.
@@ -10,6 +10,5 @@ app.config(($routeProvider)->
       when('/zine', {controller:ZineCtrl, templateUrl:'app/listener/zine.jade'}).
       otherwise({redirectTo: '/'}))
 
-@MainCtrl = ($scope, $location)=>
-	@$inject = ['$scope', '$location']
-	$scope.doit = (route)-> $location.path(route)
+@MainCtrl = ($scope, $location)->
+    $scope.doit = (route)-> $location.path(route)

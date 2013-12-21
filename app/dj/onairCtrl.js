@@ -93,3 +93,5 @@ function OnAirCtrl ($scope, $http) {
 		},
 	];
 }
+
+OnAirCtrl.$inject = ['$scope', '$http'];

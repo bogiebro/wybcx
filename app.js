@@ -5,6 +5,7 @@ var path = require('path');
 var io = require('socket.io');
 var app = express();
 var fs = require('fs');
+var model = require('./model/model');
 app.use(require('connect-assets')());
 
 // Handler dependencies

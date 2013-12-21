@@ -4,9 +4,10 @@ DashCtrl = ($scope, $http, $timeout, $upload, $modal)->
 
     $scope.sendsub = -> $modal.open {templateUrl: 'showSent'}
 
-    $scope.openPromo = -> $modal.open(
-        templateUrl: 'promo'
-        controller: DashCtrl)
+    $scope.openPromo = ->
+        $modal.open(
+            templateUrl: 'promo'
+            controller: DashCtrl)
 
     $scope.onFileSelect = ($files)->
         for $file in $files
@@ -16,4 +17,5 @@ DashCtrl = ($scope, $http, $timeout, $upload, $modal)->
             progress: (evt)->
               $scope.progress = parseInt(100.0 * evt.loaded / evt.total)
           ).success((data, status, headers, config)->
+            $scope.finished = true
             console.log(JSON.stringify(data)))

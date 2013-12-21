@@ -57,7 +57,8 @@ div.mid(ng-controller="DashCtrl")
             h3 Upload a promo
         div.modal-body
             div(ng-file-drop="onFileSelect($files)").well
-                span(ng-show="!progress") Drop a file to upload
-                span(ng-show="progress") Uploaded: {{progress}}%
+                span(ng-show="!progress && !finished") Drop a file to upload
+                span(ng-show="progress && !finished") Uploaded: {{progress}}%
+                span(ng-show="finished") All done
         div.modal-footer
 

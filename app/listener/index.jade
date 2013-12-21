@@ -2,19 +2,20 @@ doctype 5
 html(ng-app="listenApp")
   head
     title WYBC Yale Radio
-    link(rel='stylesheet', href="csslib/bootstrap.min.css")
-    link(rel='stylesheet', href="csslib/bootstrap-responsive.min.css")
+
+    link(rel='stylesheet', href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css")
+    link(rel='stylesheet', href="/css/utilities.css")
+    link(rel='stylesheet', href="/css/listener.css")
     link(rel="shortcut icon", type="image/x-icon", href="/img/goat.png")
-    != css('header')
-    != css('utilities')
-    
-    script(src="/bower_components/angular/angular.min.js")
-    script(src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")
+
     script(src="/socket.io/socket.io.js")
-    script(src="/bower_components/angular-socket-io/socket.js")
-    != js('listenroute')
+    script(src="/js/vendor.js")
+    script(src="/js/listener.js")
+    script(src="/js/utilities.js")
+    script(src="/js/app.listener.templates.js")
+
   body(ng-controller="MainCtrl")
-    img(src="img/goat.png", class="atleft bighideme")
+    img(src="/img/goat.png", class="atleft bighideme")
     h1(class="wybclogo midhideme") WYBC
     tabset(class="atright smallhideme")
         tab(heading="listen", select="doit('/listen')")

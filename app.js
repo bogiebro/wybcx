@@ -4,14 +4,10 @@ var http = require('http');
 var path = require('path');
 var io = require('socket.io');
 var app = express();
+var fs = require('fs');
 app.use(require('connect-assets')());
 
 // Handler dependencies
-var listener = require('./handlers/listener');
-var upload = require('./handlers/upload');
-var dj = require('./handlers/dj');
-var admin = require('./handlers/admin');
-var json = require('./json');
 var sockets = require('./sockets')
 
 // Set up express
@@ -24,8 +20,7 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -33,20 +28,18 @@ if ('development' == app.get('env')) {
 };
 
 // html responses
-app.get('/', listener.index);
-app.get('/listener/partials/:name', listener.partials);
-app.get('/dj', dj.dash);
-app.get('/onair', dj.onair);
-app.get('/blog', dj.blog);
-app.get('/prog', admin.prog);
-app.post('/upload', upload.upload);
+app.get('/', function(req, res) {
+	res.redirect('/listener/index.html');
+});
+
+app.post('/upload', function(req, res) {
+  fs.createReadStream(req.files.file.path).pipe(fs.createWriteStream('build/showpics/' + req.files.file.name));
+  res.write('ok');
+});
 
 // socketio responses
 var server = http.createServer(app);
 var ioapp = io.listen(server);
-// ioapp.configure(function() {
-//  ioapp.set('log level', '1');
-// });
 ioapp.sockets.on('connection', sockets.connect);
 
 // start the server

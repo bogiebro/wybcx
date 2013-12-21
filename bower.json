@@ -1,0 +1,25 @@
+{
+  "name": "wybcx",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bogiebro/wybcx",
+  "authors": [
+    "Sam Anklesaria <amsay@amsay.net>"
+  ],
+  "description": "Wybc internet radio",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*",
+    "angular-bootstrap": "*",
+    "angular-socket-io": "*",
+    "ng-file-upload": "*"
+  }
+}

@@ -1,0 +1,1 @@
+@ZineCtrl = ($scope, $http)->

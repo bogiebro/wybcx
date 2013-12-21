@@ -18,6 +18,10 @@
     "css-brunch": ">= 1.0 < 1.8",
     "ngmin-uglify-js-brunch": "~1.7.2",
     "stylus-brunch": "*",
-    "jade-angularjs-brunch": "*"
-  }
+    "jade-angularjs-brunch": "*",
+    "brunch": 1.x"
+  },
+  "scripts": {
+    "postinstall": "brunch build --optimize"
+   }
 }

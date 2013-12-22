@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/brunch/bin/brunch build --production"
   },
   "dependencies": {
     "LiveScript-brunch": "1.5.x",
@@ -22,10 +22,12 @@
     "jade-angularjs-brunch": "*",
     "brunch": "1.x",
     "bower": "1.2.7",
+    "redis": "~0.10.0",
+    "hiredis": "*",
+    "LiveScript": "*"
+  },
+  "devDependencies": {
     "sequelize-sqlite": "*",
     "sqlite3": "*"
-  },
-  "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/brunch/bin/brunch build --production"
-   }
+  }
 }

@@ -8,5 +8,13 @@ div(scroll-glue, class="well chatbox")
                 span.says {{chat.content}}
             .announce(ng-switch-when="announce") {{chat.content}}
 
-form(class="navbar-form")
-    input(type="text", placeholder="Chat about the show", class="input-block-level")
+form(class="navbar-form", ng-submit="makeChatter()")
+    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="input-block-level")
+
+script(type="text/ng-template", id="askId")
+    div.modal-header
+        h3 What should we call you?
+    div.modal-body
+        form(class="navbar-form", ng-submit="submit()")
+            input(type="text", ng-model="prefs.name", placeholder="Give us your chat handle", class="input-block-level")
+    div.modal-footer

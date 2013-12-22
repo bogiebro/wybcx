@@ -1,17 +1,18 @@
-// Module dependencies
+// External dependencies
 var express = require('express');
 var http = require('http');
 var path = require('path');
 var io = require('socket.io');
 var app = express();
 var fs = require('fs');
-var model = require('./model/model');
-app.use(require('connect-assets')());
+require('LiveScript');
 
-// Handler dependencies
+// My dependencies
 var sockets = require('./sockets')
+var model = require('./model/model');
 
 // Set up express
+app.use(require('connect-assets')());
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -41,6 +42,8 @@ app.post('/upload', function(req, res) {
 // socketio responses
 var server = http.createServer(app);
 var ioapp = io.listen(server);
+
+sockets.startRedis(ioapp);
 ioapp.sockets.on('connection', sockets.connect);
 
 // start the server

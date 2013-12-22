@@ -1,6 +1,5 @@
 DashCtrl = ($scope, $http, $timeout, $upload, $modal)->
     $scope.progress = false
-    $scope.stuff = 'sdfsdf'
 
     $scope.sendsub = -> $modal.open {templateUrl: 'showSent'}
 

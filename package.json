@@ -3,19 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/brunch/bin/brunch build --production"
+    "postinstall": "sh install.sh"
   },
   "dependencies": {
     "LiveScript-brunch": "1.5.x",
     "express": "3.3.5",
     "jade": "*",
-    "sequelize": "*",
     "pg": "*",
     "connect-assets": "*",
     "stylus": "*",
     "socket.io": "*",
     "javascript-brunch": ">= 1.0 < 1.8",
-    "coffee-script-brunch": ">= 1.0 < 1.8",
     "css-brunch": ">= 1.0 < 1.8",
     "ngmin-uglify-js-brunch": "~1.7.2",
     "stylus-brunch": "*",
@@ -24,10 +22,13 @@
     "bower": "1.2.7",
     "redis": "~0.10.0",
     "hiredis": "*",
-    "LiveScript": "*"
+    "LiveScript": "*",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "db-migrate": "~0.6.3",
+    "massive": "*"
   },
   "devDependencies": {
-    "sequelize-sqlite": "*",
     "sqlite3": "*"
   }
 }

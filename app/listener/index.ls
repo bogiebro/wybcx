@@ -10,5 +10,9 @@ app.config(($routeProvider)->
       when('/zine', {controller:ZineCtrl, templateUrl:'app/listener/zine.jade'}).
       otherwise({redirectTo: '/'}))
 
+app.service("chatstate", ->
+    name: null
+    chats: [])
+
 @MainCtrl = ($scope, $location)->
     $scope.doit = (route)-> $location.path(route)

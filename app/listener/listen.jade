@@ -1,6 +1,6 @@
 h2 Songs on Screen
 h5.smallhideme with Sam and Peter
-p(class="{{muting}}", ng-click="muteme()") mute
+p.mute(ng-class="{nomute: !stream.muted", ng-click="muteme()") mute
 div(scroll-glue, class="well chatbox")
     div(ng-repeat="chat in chats")
         div(ng-switch="chat.type")
@@ -10,6 +10,9 @@ div(scroll-glue, class="well chatbox")
 
 form(class="navbar-form", ng-submit="makeChatter()")
     input(type="text", ng-model="chatter", placeholder="Chat about the show", class="input-block-level")
+
+audio.hideme(autoplay='true', data-player-control="stream", audio-player)
+    source(src="http://wybc.com:8000/x.mp3", type="audio/mp3")
 
 script(type="text/ng-template", id="askId")
     div.modal-header

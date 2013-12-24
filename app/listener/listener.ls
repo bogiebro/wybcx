@@ -1,6 +1,6 @@
 listener = angular.module("listenApp", [ 'ngRoute',
     'ui.bootstrap', 'luegg.directives', 'btford.socket-io',
-    'app.listener.templates'])
+    'app.listener.templates', 'audioPlayer'])
 
 listener.config(($routeProvider)->
     $routeProvider.
@@ -23,7 +23,8 @@ listener.controller('ListenCtrl', ($scope, $http, socket, $modal, chatstate)->
     $scope.chats = chatstate.chats
     $scope.conf = chatstate
 
-    $scope.muteme = -> $scope.muting = $scope.muting == 'mute' ? 'nomute' : 'mute'
+    $scope.muteme = ->
+      $scope.stream.pause()
 
     $scope.makeChatter = ->
         socket.emit('chat',

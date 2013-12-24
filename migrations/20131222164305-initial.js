@@ -3,10 +3,10 @@ var type = dbm.dataType;
 
 exports.up = function(db, callback) {
     db.createTable('users', {
-        uid: { type: 'serial', primaryKey: true },
-        username: { type: 'varchar(32)', unique: true },
+        id: { type: 'serial', primaryKey: true },
+        email: { type: 'varchar(64)', unique: true },
         pass: 'text',
-        salt: 'varchar(10)',
+        salt: 'varchar(34)',
         department: 'varchar(32)',
         admin: { type: 'boolean', defaultValue: false }
     }, callback)

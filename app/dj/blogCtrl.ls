@@ -1,1 +1,0 @@
-@BlogCtrl = ($scope, $http)->

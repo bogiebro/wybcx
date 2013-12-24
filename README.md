@@ -1,17 +1,18 @@
 Hosts 
 =====
-  - elena (deployment server): 128.36.90.138
   - github (collaboration): github.com/bogiebro/wybcx
+  - heroku (deployment): git@heroku.com:wybcx.git
+  - postgresql and redis are hosted on heroku
+  - we should put static stuff on amazon s3
 
-Deploying
-=========
-  - git push ssh://node@elena/home/node/wybcx to deploy code
-  - git push git@github.com:bogiebro/wybcx.git to share code
-  - git's post-recieve hook clones the repo, then runs *naught deploy*
-  - naught is initialized on startup by upstart
-  - to manually start it, run *sudo start wybc*
-  - naught starts node on port 3000
-  - nginx does reverse proxy to route port 80 to 3000
-  - naught is killed on shutdown by upstart
-  - to manually stop it, run *sudo start nowybc*
-  - all the logs are in /home/node/
+Architecture
+============
+  - everything is written in Livescript (like Javascript)
+  - static assets (in app/) are all compiled with brunch on install
+    - build steps are managed in config.ls
+    - dependencies are managed in bower.json
+    - we have angular modules for dj, listener, admin, and utilities
+  - app.ls contains all http routing
+  - model.ls contains all communication with postgres
+  - sockets.ls contains all communication with redis and socketio
+  - migrations are run on install

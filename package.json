@@ -26,9 +26,6 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "db-migrate": "~0.6.3",
-    "massive": "*"
-  },
-  "devDependencies": {
-    "sqlite3": "*"
+    "any-db-postgres": "*"
   }
 }

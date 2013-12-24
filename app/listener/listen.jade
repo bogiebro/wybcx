@@ -1,6 +1,6 @@
 h2 Songs on Screen
 h5.smallhideme with Sam and Peter
-p.mute(ng-class="{nomute: !stream.muted", ng-click="muteme()") mute
+p.mute(ng-class="{nomute: stream.muted}", ng-click="stream.toggleMute()") mute
 div(scroll-glue, class="well chatbox")
     div(ng-repeat="chat in chats")
         div(ng-switch="chat.type")

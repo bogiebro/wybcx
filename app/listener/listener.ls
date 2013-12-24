@@ -16,15 +16,11 @@ listener.service("chatstate", ->
 
 listener.controller('ListenCtrl', ($scope, $http, socket, $modal, chatstate)->
     $scope.glued = true
-    $scope.muting = 'nomute'
     socket.forward('chat', $scope)
     $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)
 
     $scope.chats = chatstate.chats
     $scope.conf = chatstate
-
-    $scope.muteme = ->
-      $scope.stream.pause()
 
     $scope.makeChatter = ->
         socket.emit('chat',

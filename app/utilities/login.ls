@@ -9,7 +9,7 @@ login.constant('check',
         deferred = $q.defer()
         $http.get('/loggedin').success((user)->
             if (user !== '0')
-                $timeout(deferred.resolve, 0)
+                $timeout((-> deferred.resolve(user)), 0)
             else
                 $timeout((-> deferred.reject!), 0)
                 oldloc = $location.url!

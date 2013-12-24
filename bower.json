@@ -22,5 +22,8 @@
     "angular-socket-io": "*",
     "ng-file-upload": "*",
     "angular-route": "*"
+  },
+  "resolutions": {
+    "angular": "1.2.6"
   }
 }

@@ -22,6 +22,8 @@ listener.controller('ListenCtrl', ($scope, $http, socket, $modal, chatstate)->
     $scope.chats = chatstate.chats
     $scope.conf = chatstate
 
+    $scope.playlist = [src: 'http://wybc.com:8000/x.mp3', type: 'audio/mp3']
+
     $scope.makeChatter = ->
         socket.emit('chat',
           type: 'chat'
@@ -32,6 +34,8 @@ listener.controller('ListenCtrl', ($scope, $http, socket, $modal, chatstate)->
     $scope.$on('$viewContentLoaded', ->
         if !chatstate.name
             $modal.open(
+                backdrop: 'static'
+                keyboard: false
                 templateUrl: 'askId'
                 controller: ($scope, $modalInstance, conf)->
                     $scope.conf = conf

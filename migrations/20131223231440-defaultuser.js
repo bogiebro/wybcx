@@ -6,5 +6,5 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-    db.runSql("delete from users where email = 'root';", callback);
+    db.runSql("delete from users where username = 'root';", callback);
 };

@@ -19,11 +19,11 @@ login.constant('check',
 login.controller('LoginCtrl', ($scope, $http, $route, $location, $log)->
     $scope.login = ->
         $http.post('/login',
-                username: $scope.email
+                username: $scope.username
                 password: $scope.password).
             success((user)->
                 if user then $location.url($location.search!.next)
                 else $route.reload!).
             error(-> $route.reload!)
-        $scope.email = ''
+        $scope.username = ''
         $scope.password = '')

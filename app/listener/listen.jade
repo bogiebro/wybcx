@@ -9,15 +9,14 @@ div(scroll-glue, class="well chatbox")
             .announce(ng-switch-when="announce") {{chat.content}}
 
 form(class="navbar-form", ng-submit="makeChatter()")
-    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="input-block-level")
+    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="form-control")
 
-audio.hideme(autoplay='true', data-player-control="stream", audio-player)
-    source(src="http://wybc.com:8000/x.mp3", type="audio/mp3")
+audio.hideme(autoplay='true', data-playlist="playlist", data-player-control="stream", audio-player)
 
 script(type="text/ng-template", id="askId")
     div.modal-header
         h3 What should we call you?
     div.modal-body
         form(class="navbar-form", ng-submit="submit()")
-            input(type="text", ng-model="conf.name", placeholder="Give us your chat handle", class="input-block-level")
+            input(type="text", ng-model="conf.name", placeholder="Give us your chat handle", class="form-control")
     div.modal-footer

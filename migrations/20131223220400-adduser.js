@@ -6,7 +6,7 @@ exports.up = function(db, callback) {
                 RETURNS TABLE(uid integer) AS $$ \
                 DECLARE salt varchar; BEGIN \
                 salt := md5(random()::text); \
-                RETURN QUERY insert into users (email, department, salt, pass) \
+                RETURN QUERY insert into users (username, department, salt, pass) \
                 values ($1, $2, salt, md5(salt || $3)) \
                 returning users.id; \
                 END$$ LANGUAGE plpgsql;', callback );

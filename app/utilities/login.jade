@@ -1,14 +1,14 @@
 div.mid
     h1 Log In
-    form.form-horizontal(ng-submit='login()')
-        div.control-group
-            label.control-label(for='inputName') Email
-            div.controls
-                input(type='text', ng-model="email", id='inputEmail', class='input-large')
-        div.control-group
+    form.form-horizontal(role="form", ng-submit='login()')
+        div.form-group
+            label.control-label(for='inputName') Username
+            div
+                input.form-control(type='text', ng-model="username", id='inputName')
+        div.form-group
             label.control-label(for='inputPassword') Password
-            div.controls
-                input(type='password', ng-model="password", id='inputPassword')
-        div.control-group
-            div.controls
-                button.btn(type='submit') Sign in
+            div
+                input.form-control(type='password', ng-model="password", id='inputPassword')
+        div.form-group
+            div
+                button.btn(class="btn-default", type='submit') Sign in

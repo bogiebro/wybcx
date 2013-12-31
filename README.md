@@ -16,3 +16,12 @@ Architecture
   - model.ls contains all communication with postgres
   - sockets.ls contains all communication with redis and socketio
   - migrations are run on install
+
+
+File Structure
+==============
+  - ideally we'd be able to put audio and pictures on a static server
+  - in a promo bucket we'd have promos by id
+  - in a showpics bucket we'd have show pics by show id
+  - in a blogaudio bucket we'd have audio by blogpost id
+  - in a blogimages bucket we'd have blog pics by blogpost id

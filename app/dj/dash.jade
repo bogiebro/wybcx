@@ -1,64 +1,17 @@
-div.mid
-    div.show
-        div.info
-        img(src="/showpics/00000.jpg").showpic
-        div.showname <b>Show Name</b>
-        div.showtime Fridays at 3PM – on air in 2 hours
-        div.showdesc
-            | This is a show description that is long
-            | and cool and wonderful. We will be awesome
-            | and great and we have a cool show.
-            | so great that we love it so much
-            | oh yeah baby wham bam thank you maam
-            | so good and yeah that's it. 
-        div.ctrls
-            div.cthing
-                a(ng-click="onAir()") On Air
-            div.cthing
-                a Pre-record
-            div.cthing
-                a(ng-click="sendsub()") Can't make it
-        div.promotion
-            span.pthing
-                a Blog
-            span.pthing
-                a(ng-click="openPromo()") Promo
-    div.show
-        div.info
-        img(src="/showpics/00000.jpg").showpic
-        div.showname <b>Show Name</b>
-        div.showtime Fridays at 3PM – on air in 2 hours
-        div.showdesc
-            | This is a show description that is long
-            | and cool and wonderful. We will be awesome
-            | and great and we have a cool show.
-            | so great that we love it so much
-            | oh yeah baby wham bam thank you maam
-            | so good and yeah that's it. 
-        div.ctrls
-            div.cthing
-                a On Air
-            div.cthing
-                a Pre-record
-            div.cthing
-                a Can't make it
-        div.promotion
-            span.pthing
-                a Blog
-            span.pthing
-                a Promo
-    script(type="text/ng-template", id="showSent")
-        div.modal-header
-            h3 We sent an email
-        div.modal-body If someone subs your show, we'll give you a heads up.
-        div.modal-footer
-    script(type="text/ng-template", id="promo")
-        div.modal-header
-            h3 Upload a promo
-        div.modal-body
-            div(ng-file-drop="onFileSelect($files)").well
-                span(ng-show="!progress && !finished") Drop a file to upload
-                span(ng-show="progress && !finished") Uploaded: {{progress}}%
-                span(ng-show="finished") All done
-        div.modal-footer
+div.container
+    h2 Songs on Screen
+    h5 Fridays at 3PM 
+
+    a(ng-click="onAir()") On Air
+
+    div(ng-file-drop="onFileSelect($files)").well
+        span(ng-show="!progress && !finished") Drop a file to upload
+        span(ng-show="progress && !finished") Uploaded: {{progress}}%
+        span(ng-show="finished") All done
+
+//- add the promo uploader
+//- add an image uploader / viewer
+//- allow editing a description field
+//- style the dash
+//- client.putFile
 

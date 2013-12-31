@@ -9,12 +9,12 @@ div(class="container")
         tabset
             tab(heading="chat")
                 form(ng-submit="makeChatter()")
-                    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="input-block-level")
+                    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="form-control")
             tab(heading="log a song")
-                form
-                    input(type="text", placeholder="Song, Artist, Album", class="input-block-level")
+                form(ng-submit="announce()")
+                    input(type="text", ng-model="song", placeholder="Song (Artist – Album)", class="form-control")
             tab(heading="soundboard")
-                div.sounds
+                div.sounds(class="spacer")
                     a.wellspaced WYBC Promo
                     a.wellspaced Show Promo
                     a.wellspaced Sting

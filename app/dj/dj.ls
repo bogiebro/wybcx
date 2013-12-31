@@ -10,8 +10,6 @@ dj = angular.module("djApp", ['ui.bootstrap', 'ngRoute', 'ui.bootstrap.tpls',
 dj.controller('DashCtrl', ($scope, $http, $upload, $modal, $location)->
     $scope.progress = false
 
-    $scope.sendsub = -> $modal.open {templateUrl: 'showSent'}
-
     $scope.onAir = -> $location.url('onair')
 
     $scope.openPromo = ->
@@ -36,9 +34,15 @@ dj.controller('OnAirCtrl', ($scope, $http, socket, loggedin)->
     $scope.makeChatter = ->
         socket.emit('chat',
           type: 'chat'
-          speaker: loggedin.email
+          speaker: loggedin.username
           content: $scope.chatter)
         $scope.chatter = ""
+
+    $scope.announce = ->
+        socket.emit('chat',
+            type: 'announce'
+            content: $scope.song)
+        $scope.song = ""
 
     $scope.glued = true
     $scope.chats = []

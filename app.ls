@@ -6,6 +6,8 @@ io = require('socket.io')
 app = express()
 passport = require('passport')
 local = require('passport-local')
+fs = require('fs')
+knox = require('knox')
 
 # my dependencies
 sockets = require('./sockets')
@@ -31,15 +33,26 @@ app.use(express.errorHandler()) if 'development' == app.get('env')
 
 # setup passport
 passport.use(new local.Strategy(model.verify))
-
 passport.serializeUser((id, done)-> done(null, id))
 passport.deserializeUser((id, done)-> done(null, id))
 auth = (req, res, next)->
   if !req.isAuthenticated! then res.send(401) else next!
 
+# setup s3
+s3 = knox.createClient(
+    key: process.env.S3ID
+    secret: process.env.S3SECRET
+    bucket: 'wybcpics')
+
 # http responses
 app.get('/', (req, res)-> res.redirect('/listener/index.html'))
-app.post('/upload', (req, res)-> res.write('ok')) # need to do this
+app.post('/upload', auth, (req, res)->
+    p = req.files.file.path
+    console.log(p)
+    s3.putFile(p, '/' + req.user.username + path.extname(p), (err, r)->
+        console.log(err) if err
+        r.resume!)
+    res.write('ok'))
 app.post('/login', passport.authenticate('local'), (req, res)->
   res.json(req.user))
 app.get('/loggedin', (req, res)->
@@ -47,7 +60,10 @@ app.get('/loggedin', (req, res)->
 app.post('/logout', (req, res)-> 
   req.logOut()
   res.send(200))
-app.get('/restricted', auth, (req, res)->res.send({name: 'me'}))
+app.get('/showstuff/:user', (req, res)->
+  res.json(model.getShowStuff(req.params.user)))
+app.post('/showdesc', auth, (req, res)->
+    model.setShowDesc(req.body.showid, req.body.content))
 
 # socketio responses
 server = http.createServer(app)

@@ -7,42 +7,78 @@ dj = angular.module("djApp", ['ui.bootstrap', 'ngRoute', 'ui.bootstrap.tpls',
         when('/blog', {controller:'BlogCtrl', templateUrl:'app/dj/blog.jade', resolve: check}).
         when('/', {redirectTo: '/dash'}))
 
-dj.controller('DashCtrl', ($scope, $http, $upload, $modal, $location)->
-    $scope.progress = false
-
-    $scope.onAir = -> $location.url('onair')
-
-    $scope.openPromo = ->
-        $modal.open(
-            templateUrl: 'promo'
-            controller: DashCtrl)
-
-    $scope.onFileSelect = ($files)->
-        for $file in $files
-          $upload.upload(
-            url: '/upload'
-            file: $file
-            progress: (evt)->
-              $scope.progress = parseInt(100.0 * evt.loaded / evt.total)
-          ).success((data, status, headers, config)->
-            $scope.finished = true
-            console.log(JSON.stringify(data))))
+dj.factory('socket', (socketFactory)-> return socketFactory!)
 
 dj.controller('BlogCtrl', ($scope, $http)->)
 
+dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
+    $scope.onAir = -> $location.url('onair')
+
+    $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.description = d.result)
+
+    $scope.edit = ->
+        $http.post('/showdesc', desc: $scope.description)
+        $scope.editing = false
+
+    $scope.promo = 
+        progress: 0
+        fname: null
+
+    $scope.rec = 
+        progress: 0
+        fname: null
+
+    $scope.pic = 
+        progress: 0
+        fname: null
+
+    $scope.promotext = ->
+        return $scope.promo.progress + "%" if $scope.promo.progress > 0
+        return "drop a promo"
+
+    $scope.rectext = ->
+        return $scope.rec.progress + "%" if $scope.rec.progress > 0
+        return "drop a prerecorded show"
+
+    uploadThing = ($files, type, obj)->
+        if (obj.progress == 0)
+            obj.fname = null
+            $upload.upload(
+                url : '/upload'
+                method: 'POST'
+                headers: {'myHeaderKey': 'myHeaderVal'}
+                data : { uploadtype : type }
+                file: $files[0]
+                fileFormDataName: 'myFile'
+            ).then((response)->
+                obj.progress = 0
+                obj.fname = response.data.result
+            , null (evt)->
+                    obj.progress = parseInt(100.0 * evt.loaded / evt.total))
+
+    $scope.onImgSelect = ($files)-> uploadThing($files, 'image', $scope.pic)
+
+    $scope.onPromoSelect = ($files)-> uploadThing($files, 'promo', $scope.promo)
+
+    $scope.onRecSelect = ($files)-> uploadThing($files, 'rec', $scope.rec))
+
 dj.controller('OnAirCtrl', ($scope, $http, socket, loggedin)->
+    $scope.info =
+        chatter: ''
+        song: ''
+
     $scope.makeChatter = ->
         socket.emit('chat',
           type: 'chat'
           speaker: loggedin.username
-          content: $scope.chatter)
-        $scope.chatter = ""
+          content: $scope.info.chatter)
+        $scope.info.chatter = ""
 
     $scope.announce = ->
         socket.emit('chat',
             type: 'announce'
-            content: $scope.song)
-        $scope.song = ""
+            content: $scope.info.song)
+        $scope.info.song = ""
 
     $scope.glued = true
     $scope.chats = []

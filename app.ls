@@ -47,12 +47,13 @@ s3 = knox.createClient(
 # http responses
 app.get('/', (req, res)-> res.redirect('/listener/index.html'))
 app.post('/upload', auth, (req, res)->
-    p = req.files.file.path
-    console.log(p)
-    s3.putFile(p, '/' + req.user.username + path.extname(p), (err, r)->
-        console.log(err) if err
-        r.resume!)
-    res.write('ok'))
+    n = req.files.myFile.name
+    loc = '/' + req.body.uploadtype + '/' + req.user.show + path.extname(n)
+    # s3.putFile(req.files.myFile.path, loc, (err, r)->
+    #     console.log(err) if err
+    #     console.log(r.statusCode) if (r.statusCode != 200)
+    #     res.json(result: loc)))
+    res.json(result: loc))
 app.post('/login', passport.authenticate('local'), (req, res)->
   res.json(req.user))
 app.get('/loggedin', (req, res)->
@@ -60,10 +61,11 @@ app.get('/loggedin', (req, res)->
 app.post('/logout', (req, res)-> 
   req.logOut()
   res.send(200))
-app.get('/showstuff/:user', (req, res)->
-  res.json(model.getShowStuff(req.params.user)))
 app.post('/showdesc', auth, (req, res)->
-    model.setShowDesc(req.body.showid, req.body.content))
+    model.setShowDesc(req.user.show, req.body.desc)
+    res.send(200))
+app.get('/showdesc/:show', (req, res)->
+    model.getShowDesc(req.params.show, res))
 
 # socketio responses
 server = http.createServer(app)

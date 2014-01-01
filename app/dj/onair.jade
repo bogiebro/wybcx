@@ -8,11 +8,11 @@ div(class="container")
                     .announce(ng-switch-when="announce") {{chat.content}}
         tabset
             tab(heading="chat")
-                form(ng-submit="makeChatter()")
-                    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="form-control")
+                form.spacer(ng-submit="makeChatter()")
+                    input(type="text", ng-model="info.chatter", placeholder="Chat about the show", class="form-control")
             tab(heading="log a song")
-                form(ng-submit="announce()")
-                    input(type="text", ng-model="song", placeholder="Song (Artist – Album)", class="form-control")
+                form.spacer(ng-submit="announce()")
+                    input(type="text", ng-model="info.song", placeholder="Song (Artist – Album)", class="form-control")
             tab(heading="soundboard")
                 div.sounds(class="spacer")
                     a.wellspaced WYBC Promo

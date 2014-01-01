@@ -1,17 +1,25 @@
 div.container
-    h2 Songs on Screen
-    h5 Fridays at 3PM 
+    .mid
+        .row
+            .col-md-5
+                img.down(ng-file-drop="onImgSelect($files);", src="/showpics/00000.jpg")
+            .col-md-7
+                h1 Songs on Screen
+                h3.indent Fridays at 3PM 
+                div
+                    button.spaced(class="btn btn-default", ng-click="onAir()") On Air
+                    span.spaced(ng-show="dropSupported", class="drop-box", ng-file-drop="onPromoSelect($files);", ng-file-drop-available="dropSupported=true")
+                        | {{promotext()}}
+                    span.spaced(ng-show="dropSupported", class="drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
+                        | {{rectext()}}
+        p.desc(ng-show="!editing") {{description}}
+            | <a ng-click="editing = true"><i>Edit</i></a>
 
-    a(ng-click="onAir()") On Air
+        form.desc(role="form", ng-show="editing")
+            div.form-group
+                textarea.form-control(rows="3", ng-model="description")
+            button(type="submit", class="btn btn-default", ng-click="edit()") Save
 
-    div(ng-file-drop="onFileSelect($files)").well
-        span(ng-show="!progress && !finished") Drop a file to upload
-        span(ng-show="progress && !finished") Uploaded: {{progress}}%
-        span(ng-show="finished") All done
 
-//- add the promo uploader
-//- add an image uploader / viewer
-//- allow editing a description field
-//- style the dash
-//- client.putFile
-
+//- use an ng-source for the picture, overlay progress text
+//- don't show completed filename for rec and promo

@@ -1,62 +1,39 @@
 @media (min-width: 540px) {
 	.mid {
 		position: fixed;
-		top: 10%;
+		top: 20%;
 		@media (min-width: 1090px) {
-			left: 20%;
+			left: 30%;
 		}
 	}
 }
 
-.showpic {
-	float: left;
-	padding-right: 15px;
+button.spaced
+	vertical-align: baseline;
+
+.indent
+	padding-left: 30px;
+
+.down
+	margin-top: 20px;
+
+.desc
+	margin-top: 20px;
+	width: 95%;
+	margin-left:auto;
+	margin-right:auto;
+
+.spaced
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+
+.drop-box {
+	background: #F8F8F8;
+	border: 5px dashed #DDD;
+	padding: 3px; 
 }
 
-.show {
-	position: relative;
-	height: 250px;
-}
-
-.showname {
-	font-size: 30px;
-	padding-bottom: 10px;
-}
-
-.showtime {
-	font-size: 16px;
-	font-style: italic;
-	padding-bottom: 15px;
-	color:#999999;
-}
-
-.showdesc {
-	font-size: 14px;
-	max-width: 650px;
-	text-align:justify;
-	max-height: 80px;
-	overflow:scroll;
-}
-
-.ctrls {
-	position: absolute;
-	left: 680px;
-	top: 48px;
-	line-height: 190%;
-	width: 300px;
-}
-
-.cthing {
-	font-size: 12px;
-}
-
-.promotion {
-	position: absolute;
-	top: 150px;
-	right: -15px;
-}
-
-.pthing {
-	margin: 5px;
-	font-size: 12px;
+.drop-box.dragover {
+	border: 5px dashed blue;
 }

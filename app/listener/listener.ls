@@ -10,11 +10,13 @@ listener.config(($routeProvider)->
       when('/zine', {controller:'ZineCtrl', templateUrl:'app/listener/zine.jade'}).
       otherwise({redirectTo: '/'}))
 
+listener.factory('socket', (socketFactory)-> return socketFactory!)
+
 listener.service("chatstate", ->
     name: null
     chats: [])
 
-listener.controller('ListenCtrl', ($scope, $http, socket, $modal, chatstate)->
+listener.controller('ListenCtrl', ($scope, socket, $modal, chatstate)->
     $scope.glued = true
     socket.forward('chat', $scope)
     $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)

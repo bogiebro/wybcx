@@ -1,25 +1,24 @@
 div.container
     .mid
         .row
-            .col-md-5
+            .col-xs-5(class="hidden-xs")
                 img.down(ng-file-drop="onImgSelect($files);", src="/showpics/00000.jpg")
-            .col-md-7
-                h1 Songs on Screen
-                h3.indent Fridays at 3PM 
-                div
-                    button.spaced(class="btn btn-default", ng-click="onAir()") On Air
-                    span.spaced(ng-show="dropSupported", class="drop-box", ng-file-drop="onPromoSelect($files);", ng-file-drop-available="dropSupported=true")
-                        | {{promotext()}}
-                    span.spaced(ng-show="dropSupported", class="drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
-                        | {{rectext()}}
-        p.desc(ng-show="!editing") {{description}}
+            .col-xs-7
+                h1 {{showinfo.name}}
+                h3.indent {{showinfo.time}}
+                .row(class="down")
+                    .col-xs-4(class="hidden-xs")
+                        div(ng-show="dropSupported", class="drop-box", ng-file-drop="onPromoSelect($files);", ng-file-drop-available="dropSupported=true")
+                            | {{promotext()}}
+                    .col-xs-5(class="hidden-xs")
+                        div(ng-show="dropSupported", class="drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
+                            | {{rectext()}}
+                    .col-xs-3
+                        button(class="btn btn-lg btn-default", ng-click="onAir()") On Air
+        p.desc(ng-show="!editing") {{showinfo.description}}
             | <a ng-click="editing = true"><i>Edit</i></a>
 
         form.desc(role="form", ng-show="editing")
             div.form-group
-                textarea.form-control(rows="3", ng-model="description")
+                textarea.form-control(rows="3", ng-model="showinfo.description")
             button(type="submit", class="btn btn-default", ng-click="edit()") Save
-
-
-//- use an ng-source for the picture, overlay progress text
-//- don't show completed filename for rec and promo

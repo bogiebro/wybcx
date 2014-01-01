@@ -23,8 +23,7 @@ exports.setShowDesc = (show, desc)->
             console.log(err) if err)
 
 exports.getShowDesc = (show, res)->
-    pool.query('select description from shows where id = $1', [show],
+    pool.query('select description, name, time from shows where id = $1', [show],
         (err, result)->
-            console.log(result.rows[0].description)
             if err then console.error err
-            res.json(result: result.rows[0].description))
+            res.json(result.rows[0]))

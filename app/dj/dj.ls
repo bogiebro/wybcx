@@ -12,12 +12,17 @@ dj.factory('socket', (socketFactory)-> return socketFactory!)
 dj.controller('BlogCtrl', ($scope, $http)->)
 
 dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
+    $scope.showinfo =
+        name: ''
+        time: ''
+        description: ''
+
     $scope.onAir = -> $location.url('onair')
 
-    $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.description = d.result)
+    $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
 
     $scope.edit = ->
-        $http.post('/showdesc', desc: $scope.description)
+        $http.post('/showdesc', desc: $scope.showinfo.description)
         $scope.editing = false
 
     $scope.promo = 
@@ -33,12 +38,12 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
         fname: null
 
     $scope.promotext = ->
-        return $scope.promo.progress + "%" if $scope.promo.progress > 0
+        return $scope.promo.progress + "%" if 100 > $scope.promo.progress > 0
         return "drop a promo"
 
     $scope.rectext = ->
-        return $scope.rec.progress + "%" if $scope.rec.progress > 0
-        return "drop a prerecorded show"
+        return $scope.rec.progress + "%" if 100 > $scope.rec.progress > 0
+        return "drop a show"
 
     uploadThing = ($files, type, obj)->
         if (obj.progress == 0)

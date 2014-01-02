@@ -1,1 +1,4 @@
-find build -type f | ./node_modules/LiveScript/bin/livescript s3upload.ls
+rm -r build
+./node_modules/bower/bin/bower install
+./node_modules/brunch/bin/brunch build --production
+find build -type f | grep 'js\|css' | ./node_modules/LiveScript/bin/livescript s3upload.ls

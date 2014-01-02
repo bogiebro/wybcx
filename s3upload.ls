@@ -17,4 +17,4 @@ uploadPath = (file, path)->
 
 new lazy(process.stdin).lines.forEach((line)->
     path = line.slice(5)
-    uploadPath(line, path) if path is /\/[^.]/)
+    uploadPath(line, path))

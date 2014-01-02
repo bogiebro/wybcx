@@ -3,19 +3,19 @@ html(ng-app="listenApp")
   head
     title WYBC Yale Radio
 
-    link(rel='stylesheet', href="/css/utilities.css")
-    link(rel='stylesheet', href="/css/listener.css")
-    link(rel="shortcut icon", type="image/x-icon", href="/img/goat.png")
+    link(rel='stylesheet', href=SROOT + "/css/utilities.css")
+    link(rel='stylesheet', href=SROOT + "/css/listener.css")
+    link(rel="shortcut icon", type="image/x-icon", href=SROOT + "/img/goat.png")
 
     script(src="/socket.io/socket.io.js")
-    script(src="/js/vendor.js")
-    script(src="/js/listener.js")
-    script(src="/js/utilities.js")
-    script(src="/js/app.listener.templates.js")
-    script(src="/js/app.templates.js")
+    script(src=SROOT + "/js/vendor.js")
+    script(src=SROOT + "/js/listener.js")
+    script(src=SROOT + "/js/utilities.js")
+    script(src=SROOT + "/js/app.listener.templates.js")
+    script(src=SROOT + "/js/app.templates.js")
 
   body(ng-controller="MainCtrl")
-    img(src="/img/goat.png", class="atleft bighideme")
+    img(src=SROOT + "/img/goat.png", class="atleft bighideme")
     h1(class="wybclogo midhideme") WYBC
     tabset(class="atright smallhideme")
         tab(heading="listen", select="doit('/listen')")

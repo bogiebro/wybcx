@@ -3,18 +3,18 @@ html(ng-app="djApp")
   head
     title WYBC Yale Radio
 
-    link(rel='stylesheet', href="/css/dj.css")
-    link(rel='stylesheet', href="/css/utilities.css")
-    link(rel="shortcut icon", type="image/x-icon", href="/img/goat.png")
+    link(rel='stylesheet', href=SROOT + "/css/dj.css")
+    link(rel='stylesheet', href=SROOT + "/css/utilities.css")
+    link(rel="shortcut icon", type="image/x-icon", href=SROOT + "/img/goat.png")
 
-    script(src='/angular-file-upload-html5-shim.min.js')
+    script(src=SROOT + '/angular-file-upload-html5-shim.min.js')
     script(src="/socket.io/socket.io.js")
-    script(src="/js/vendor.js")
-    script(src='/angular-file-upload.min.js')
-    script(src="/js/dj.js")
-    script(src="/js/utilities.js")
-    script(src="/js/app.dj.templates.js")
-    script(src="/js/app.templates.js")
+    script(src=SROOT + '/js/vendor.js')
+    script(src=SROOT + '/angular-file-upload.min.js')
+    script(src=SROOT + "/js/dj.js")
+    script(src=SROOT + "/js/utilities.js")
+    script(src=SROOT + "/js/app.dj.templates.js")
+    script(src=SROOT + "/js/app.templates.js")
 
   body
     h1(class="wybclogo hideme") WYBC DJ

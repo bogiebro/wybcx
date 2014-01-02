@@ -27,4 +27,7 @@ exports.config =
         jade:
             pretty: no
         uglify:
-              mangle: false
+            mangle: false
+        jade_angular:
+            locals:
+                SROOT: 'http://wybcsite.s3-website-us-east-1.amazonaws.com'

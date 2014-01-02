@@ -42,7 +42,7 @@ auth = (req, res, next)->
 s3 = knox.createClient(
     key: process.env.S3ID
     secret: process.env.S3SECRET
-    bucket: 'wybcpics')
+    bucket: 'wybcsite')
 
 # http responses
 app.get('/', (req, res)-> res.redirect('/listener/index.html'))
@@ -52,7 +52,7 @@ app.post('/upload', auth, (req, res)->
     s3.putFile(req.files.myFile.path, loc, (err, r)->
         console.log(err) if err
         console.log(r.statusCode) if (r.statusCode != 200)
-        res.json(result: loc)))
+        res.send(200)))
 app.post('/login', passport.authenticate('local'), (req, res)->
   res.json(req.user))
 app.get('/loggedin', (req, res)->

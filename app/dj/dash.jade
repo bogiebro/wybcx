@@ -2,16 +2,16 @@ div.container
     .mid
         .row
             .col-xs-5(class="hidden-xs")
-                img.down(ng-file-drop="onImgSelect($files);", src="/showpics/00000.jpg")
+                img.down(class='bordered', id="showpic", ng-file-drop="onImgSelect($files);", ng-src="#{AROOT}/image/{{ showimg }}")
             .col-xs-7
                 h1 {{showinfo.name}}
                 h3.indent {{showinfo.time}}
                 .row(class="down")
                     .col-xs-4(class="hidden-xs")
-                        div(ng-show="dropSupported", class="drop-box", ng-file-drop="onPromoSelect($files);", ng-file-drop-available="dropSupported=true")
+                        div(ng-show="dropSupported", class="bordered drop-box", ng-file-drop="onPromoSelect($files);", ng-file-drop-available="dropSupported=true")
                             | {{promotext()}}
                     .col-xs-5(class="hidden-xs")
-                        div(ng-show="dropSupported", class="drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
+                        div(ng-show="dropSupported", class="bordered drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
                             | {{rectext()}}
                     .col-xs-3
                         button(class="btn btn-lg btn-default", ng-click="onAir()") On Air

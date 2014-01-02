@@ -30,4 +30,9 @@ exports.config =
             mangle: false
         jade_angular:
             locals:
+                SROOT: ''
+                AROOT: 'http://wybcsite.s3-website-us-east-1.amazonaws.com'
+    overrides:
+        production:
+            plugins: jade_angular: locals:
                 SROOT: 'http://wybcsite.s3-website-us-east-1.amazonaws.com'

@@ -17,6 +17,8 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
         time: ''
         description: ''
 
+    $scope.showimg = loggedin.show + '.jpg?a=' + new Date!.getTime!
+
     $scope.onAir = -> $location.url('onair')
 
     $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
@@ -27,15 +29,12 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
 
     $scope.promo = 
         progress: 0
-        fname: null
 
     $scope.rec = 
         progress: 0
-        fname: null
 
     $scope.pic = 
         progress: 0
-        fname: null
 
     $scope.promotext = ->
         return $scope.promo.progress + "%" if 100 > $scope.promo.progress > 0
@@ -45,7 +44,7 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
         return $scope.rec.progress + "%" if 100 > $scope.rec.progress > 0
         return "drop a show"
 
-    uploadThing = ($files, type, obj)->
+    uploadThing = ($files, type, obj, callback)->
         if (obj.progress == 0)
             obj.fname = null
             $upload.upload(
@@ -57,11 +56,13 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
                 fileFormDataName: 'myFile'
             ).then((response)->
                 obj.progress = 0
-                obj.fname = response.data.result
+                callback! if callback
             , null, (evt)->
                     obj.progress = parseInt(100.0 * evt.loaded / evt.total))
 
-    $scope.onImgSelect = ($files)-> uploadThing($files, 'image', $scope.pic)
+    $scope.onImgSelect = ($files)->
+        uploadThing($files, 'image', $scope.pic, ->
+            $scope.$apply($scope.showimg = loggedin.show + '.jpg?a=' + new Date!))
 
     $scope.onPromoSelect = ($files)-> uploadThing($files, 'promo', $scope.promo)
 

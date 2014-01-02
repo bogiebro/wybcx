@@ -1,0 +1,1 @@
+find build -type f | ./node_modules/LiveScript/bin/livescript s3upload.ls

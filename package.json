@@ -27,6 +27,7 @@
     "passport-local": "~0.1.6",
     "db-migrate": "~0.6.3",
     "any-db-postgres": "*",
-    "knox": "~0.8.8"
+    "knox": "~0.8.8",
+    "lazy": "~1.0.11"
   }
 }

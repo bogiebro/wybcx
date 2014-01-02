@@ -49,11 +49,10 @@ app.get('/', (req, res)-> res.redirect('/listener/index.html'))
 app.post('/upload', auth, (req, res)->
     n = req.files.myFile.name
     loc = '/' + req.body.uploadtype + '/' + req.user.show + path.extname(n)
-    # s3.putFile(req.files.myFile.path, loc, (err, r)->
-    #     console.log(err) if err
-    #     console.log(r.statusCode) if (r.statusCode != 200)
-    #     res.json(result: loc)))
-    res.json(result: loc))
+    s3.putFile(req.files.myFile.path, loc, (err, r)->
+        console.log(err) if err
+        console.log(r.statusCode) if (r.statusCode != 200)
+        res.json(result: loc)))
 app.post('/login', passport.authenticate('local'), (req, res)->
   res.json(req.user))
 app.get('/loggedin', (req, res)->

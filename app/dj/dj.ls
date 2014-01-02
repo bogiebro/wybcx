@@ -58,7 +58,7 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
             ).then((response)->
                 obj.progress = 0
                 obj.fname = response.data.result
-            , null (evt)->
+            , null, (evt)->
                     obj.progress = parseInt(100.0 * evt.loaded / evt.total))
 
     $scope.onImgSelect = ($files)-> uploadThing($files, 'image', $scope.pic)

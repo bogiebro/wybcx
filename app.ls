@@ -1,6 +1,7 @@
 # external dependencies
 require! <[ express http path passport fs knox passport-local gm multiparty ]>
 io = require('socket.io')
+im = gm.subClass(imageMagick: true)
 require! <[ ./sockets ./model ]>
 
 # Express config
@@ -63,7 +64,7 @@ app.post '/upload', session, auth, (req, res)!->
         console.error r.statusCode if r.statusCode != 200
         res.send 200
       if n is /png|jpg|jpeg|pdf/i
-        gm(upload.stream, n).resize(250).setFormat('jpeg').toBuffer (err, buffer)!->
+        im(upload.stream, n).resize(250).setFormat('jpeg').toBuffer (err, buffer)!->
           if err then console.error err else
             s3.putBuffer(buffer, loc, {}, s3result)
       else s3.putStream upload.stream, loc, 'Content-Length': stream.byteCount, s3result

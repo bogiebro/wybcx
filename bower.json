@@ -22,8 +22,5 @@
     "angular-socket-io": "*",
     "angular-route": "*",
     "angular-audio-playlist": "~0.2.0"
-  },
-  "resolutions": {
-    "angular": ">=1"
   }
 }

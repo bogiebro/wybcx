@@ -4,7 +4,7 @@ login.config(($routeProvider)->
         controller:'LoginCtrl'
         templateUrl:'app/utilities/login.jade'))
 
-login.constant('check',
+login.constant 'check' do
     loggedin: ($q, $timeout, $http, $location)->
         deferred = $q.defer()
         $http.get('/loggedin').success((user)->
@@ -14,9 +14,9 @@ login.constant('check',
                 $timeout((-> deferred.reject!), 0)
                 oldloc = $location.url!
                 $location.url('/login').search(next: oldloc))
-        return deferred.promise)
+        return deferred.promise
 
-login.controller('LoginCtrl', ($scope, $http, $route, $location, $log)->
+login.controller 'LoginCtrl', ($scope, $http, $route, $location, $log)->
     $scope.login = ->
         $http.post('/login',
                 username: $scope.username
@@ -26,4 +26,4 @@ login.controller('LoginCtrl', ($scope, $http, $route, $location, $log)->
                 else $route.reload!).
             error(-> $route.reload!)
         $scope.username = ''
-        $scope.password = '')
+        $scope.password = ''

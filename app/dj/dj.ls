@@ -3,6 +3,7 @@ dj = angular.module("djApp", ['ui.bootstrap', 'ngRoute', 'ui.bootstrap.tpls',
         'login']).config(($routeProvider, $locationProvider, check)->
     $routeProvider.
         when('/dash', {controller:'DashCtrl', templateUrl:'app/dj/dash.jade', resolve: check}).
+        when('/newshow', {controller:'NewShowCtrl', templateUrl:'app/dj/newshow.jade', resolve: check}).
         when('/onair', {controller:'OnAirCtrl', templateUrl:'app/dj/onair.jade', resolve: check}).
         when('/blog', {controller:'BlogCtrl', templateUrl:'app/dj/blog.jade', resolve: check}).
         when('/', {redirectTo: '/dash'}))
@@ -11,7 +12,12 @@ dj.factory('socket', (socketFactory)-> return socketFactory!)
 
 dj.controller('BlogCtrl', ($scope, $http)->)
 
-dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
+# DashCtrl
+dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
+    if loggedin.show
+        $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
+    else $location.url('newshow')
+
     $scope.showinfo =
         name: ''
         time: ''
@@ -21,20 +27,13 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
 
     $scope.onAir = -> $location.url('onair')
 
-    $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
-
     $scope.edit = ->
         $http.post('/showdesc', desc: $scope.showinfo.description)
         $scope.editing = false
 
-    $scope.promo = 
-        progress: 0
-
-    $scope.rec = 
-        progress: 0
-
-    $scope.pic = 
-        progress: 0
+    $scope.promo = progress: 0
+    $scope.rec = progress: 0
+    $scope.pic = progress: 0
 
     $scope.promotext = ->
         return $scope.promo.progress + "%" if 100 > $scope.promo.progress > 0
@@ -62,31 +61,54 @@ dj.controller('DashCtrl', ($scope, $upload, $location, $http, loggedin)->
 
     $scope.onImgSelect = ($files)->
         uploadThing($files, 'image', $scope.pic, ->
-            $scope.$apply($scope.showimg = loggedin.show + '.jpg?a=' + new Date!))
+            $scope.showimg = loggedin.show + '.jpg?a=' + new Date!.getTime!)
 
     $scope.onPromoSelect = ($files)-> uploadThing($files, 'promo', $scope.promo)
 
-    $scope.onRecSelect = ($files)-> uploadThing($files, 'rec', $scope.rec))
+    $scope.onRecSelect = ($files)-> uploadThing($files, 'rec', $scope.rec)
 
-dj.controller('OnAirCtrl', ($scope, $http, socket, loggedin)->
+# OnAirCtrl
+dj.controller 'OnAirCtrl', ($scope, $http, socket, loggedin)->
     $scope.info =
         chatter: ''
         song: ''
 
     $scope.makeChatter = ->
-        socket.emit('chat',
+        socket.emit 'chat' do
           type: 'chat'
           speaker: loggedin.username
-          content: $scope.info.chatter)
+          content: $scope.info.chatter
         $scope.info.chatter = ""
 
     $scope.announce = ->
-        socket.emit('chat',
+        socket.emit 'chat' do
             type: 'announce'
-            content: $scope.info.song)
+            content: $scope.info.song
         $scope.info.song = ""
 
     $scope.glued = true
     $scope.chats = []
     socket.forward('chat', $scope)
-    $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data))
+    $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)
+
+# NewShowCtrl
+dj.controller 'NewShowCtrl', ($scope, $upload, $location)->
+    $scope.dashboard = -> $location.url('dash')
+
+    $scope.result =
+        progress: 0
+        finished: false
+
+    $scope.showReq = (show)->
+        $upload.upload(
+            url: '/showreq'
+            method: 'POST'
+            data: show
+            file: $scope.sample
+            fileFormDataName: 'myFile'
+        ).then((response)->
+            $scope.result.finished = true
+        , null, (evt)->
+             $scope.result.progress = parseInt(100.0 * evt.loaded / evt.total))
+
+    $scope.onFileSelect = ($files)-> $scope.sample = $files[0]

@@ -1,4 +1,4 @@
-redis = require("redis");
+require! "redis"
 
 var pusher, subscriber
 
@@ -15,7 +15,7 @@ exports.startRedis = (io)->
 
     subscriber.on("message", (channel, message)->
         io.sockets.emit('chat', JSON.parse(message)))
-    subscriber.subscribe("showchat");
+    subscriber.subscribe("showchat")
 
 exports.connect = (s) ->
   console.log('socket connected')

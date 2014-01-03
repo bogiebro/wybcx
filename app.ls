@@ -1,70 +1,86 @@
 # external dependencies
-express = require('express')
-http = require('http')
-path = require('path')
+require! <[ express http path passport fs knox passport-local gm multiparty ]>
 io = require('socket.io')
-app = express()
-passport = require('passport')
-local = require('passport-local')
-fs = require('fs')
-knox = require('knox')
+require! <[ ./sockets ./model ]>
 
-# my dependencies
-sockets = require('./sockets')
-model = require('./model')
-
-# Set up express
-app.use(require('connect-assets')())
+# Express config
+app = express!
+development = 'development' == app.get('env')
 app.set('port', process.env.PORT || 3000)
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
-app.use(express.logger('dev'))
-app.use(express.bodyParser())
-app.use(express.methodOverride())
-app.use(express.cookieParser())
-app.use(express.session({secret: 'keyboard cat'}))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(app.router)
-app.use(express.static(path.join(__dirname, 'build')))
+app.use _
+  .. if development then express.logger 'dev' else express.logger!
+  .. express.compress!
+  .. <| express.static <| path.join(__dirname, 'build')
+  .. express.urlencoded!
+  .. app.router
+  .. express.errorHandler! if development
 
-# development only
-app.use(express.errorHandler()) if 'development' == app.get('env')
+session =
+  express.cookieParser!
+  express.session(secret: 'keyboard cat')
+  passport.initialize!
+  passport.session!
+
+json = express.json!
 
 # setup passport
-passport.use(new local.Strategy(model.verify))
-passport.serializeUser((id, done)-> done(null, id))
-passport.deserializeUser((id, done)-> done(null, id))
-auth = (req, res, next)->
+passport
+  ..use(new passport-local.Strategy(model.verify))
+  ..serializeUser((id, done)!-> done(null, id))
+  ..deserializeUser((id, done)!-> done(null, id))
+auth = (req, res, next)!->
   if !req.isAuthenticated! then res.send(401) else next!
 
 # setup s3
-s3 = knox.createClient(
+s3 = knox.createClient do
     key: process.env.S3ID
     secret: process.env.S3SECRET
-    bucket: 'wybcsite')
+    bucket: 'wybcsite'
 
 # http responses
-app.get('/', (req, res)-> res.redirect('/listener/index.html'))
-app.post('/upload', auth, (req, res)->
-    n = req.files.myFile.name
-    loc = '/' + req.body.uploadtype + '/' + req.user.show + path.extname(n)
-    s3.putFile(req.files.myFile.path, loc, (err, r)->
-        console.log(err) if err
-        console.log(r.statusCode) if (r.statusCode != 200)
-        res.send(200)))
-app.post('/login', passport.authenticate('local'), (req, res)->
-  res.json(req.user))
-app.get('/loggedin', (req, res)->
-  if req.isAuthenticated! then res.json(req.user) else res.send('0'))
-app.post('/logout', (req, res)-> 
-  req.logOut()
-  res.send(200))
-app.post('/showdesc', auth, (req, res)->
+app.get '/', (req, res)!-> res.redirect('/listener/index.html')
+
+app.post '/login', session, json, passport.authenticate('local'), (req, res)!->
+  res.json(req.user)
+
+app.get '/loggedin', session, (req, res)!->
+  if req.isAuthenticated! then res.json(req.user) else res.send('0')
+
+app.post '/logout', session, (req, res)!-> req.logOut!; res.send 200
+
+app.post '/upload', session, auth, (req, res)!->
+  form = new multiparty.Form!
+  upload = {}
+  form.on 'field', (name, value)!-> upload.dir = value if (name is 'uploadtype')
+  form.on 'part', (part)!-> upload.stream = part if part.filename
+
+  form.on 'close', !->
+    if (upload.dir && upload.stream)
+      n = upload.stream.filename
+      loc = '/' + upload.dir + '/' + req.user.show + '.jpg'
+      s3result = (err, r)!->
+        console.error err if err
+        console.error r.statusCode if r.statusCode != 200
+        res.send 200
+      if n is /png|jpg|jpeg|pdf/i
+        gm(upload.stream, n).resize(250).setFormat('jpeg').toBuffer (err, buffer)!->
+          if err then console.error err else
+            s3.putBuffer(buffer, loc, {}, s3result)
+      else s3.putStream upload.stream, loc, 'Content-Length': stream.byteCount, s3result
+    else
+      console.error('Missing multipart fields')
+      res.send 400
+
+  form.parse(req)
+
+app.post('/showdesc', session, json, auth, (req, res)->
     model.setShowDesc(req.user.show, req.body.desc)
     res.send(200))
+
 app.get('/showdesc/:show', (req, res)->
     model.getShowDesc(req.params.show, res))
+
+app.post('/showreq', (req, res)-> res.send(200))
 
 # socketio responses
 server = http.createServer(app)

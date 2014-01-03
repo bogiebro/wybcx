@@ -10,7 +10,6 @@
     "express": "3.3.5",
     "jade": "*",
     "pg": "*",
-    "connect-assets": "*",
     "stylus": "*",
     "socket.io": "*",
     "javascript-brunch": ">= 1.0 < 1.8",
@@ -27,9 +26,11 @@
     "passport-local": "~0.1.6",
     "db-migrate": "~0.6.3",
     "any-db-postgres": "*",
-    "knox": "~0.8.8"
+    "knox": "~0.8.8",
+    "gm": "~1.14.2",
+    "multiparty": "~3.1.1"
   },
   "devDependencies": {
-      "lazy": "~1.0.11"
+    "lazy": "~1.0.11"
   }
 }

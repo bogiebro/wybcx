@@ -15,9 +15,8 @@ html(ng-app="listenApp")
     script(src=SROOT + "/js/app.templates.js")
 
   body(ng-controller="MainCtrl")
-    img(src=SROOT + "/img/goat.png", class="atleft bighideme")
-    h1(class="wybclogo midhideme") WYBC
-    tabset(class="atright smallhideme")
+    h1(class="wybclogo hidden-xs") WYBC
+    tabset(class="atright hidden-xs")
         tab(heading="listen", select="doit('/listen')")
         tab(heading="shows", select="doit('/shows')")
         tab(heading="blog", select="doit('/blog')")

@@ -1,5 +1,5 @@
 div.container
-    .mid
+    .dash
         .row
             .col-xs-5(class="hidden-xs")
                 img.down(class='bordered', id="showpic", ng-file-drop="onImgSelect($files);", ng-src="#{AROOT}/image/{{ showimg }}")
@@ -13,7 +13,7 @@ div.container
                     .col-xs-5(class="hidden-xs")
                         div(ng-show="dropSupported", class="bordered drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
                             | {{rectext()}}
-                    .col-xs-3
+                    .col-xs-3(class="smallright")
                         button(class="btn btn-lg btn-default", ng-click="onAir()") On Air
         p.desc(ng-show="!editing") {{showinfo.description}}
             | <a ng-click="editing = true"><i>Edit</i></a>

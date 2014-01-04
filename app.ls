@@ -1,4 +1,3 @@
-# external dependencies
 require! <[ express http path passport fs knox passport-local gm multiparty ]>
 io = require('socket.io')
 im = gm.subClass(imageMagick: true)
@@ -38,6 +37,11 @@ s3 = knox.createClient do
     secret: process.env.S3SECRET
     bucket: 'wybcsite'
 
+s3result = (res, err, r)-->
+  console.error err if err
+  console.error r.statusCode if r.statusCode != 200
+  res.send 200
+
 # http responses
 app.get '/', (req, res)!-> res.redirect('/listener/index.html')
 
@@ -59,15 +63,13 @@ app.post '/upload', session, auth, (req, res)!->
     if (upload.dir && upload.stream)
       n = upload.stream.filename
       loc = '/' + upload.dir + '/' + req.user.show + '.jpg'
-      s3result = (err, r)!->
-        console.error err if err
-        console.error r.statusCode if r.statusCode != 200
-        res.send 200
       if n is /png|jpg|jpeg|pdf/i
         im(upload.stream, n).resize(250).setFormat('jpeg').toBuffer (err, buffer)!->
           if err then console.error err else
             s3.putBuffer(buffer, loc, {}, s3result)
-      else s3.putStream upload.stream, loc, 'Content-Length': stream.byteCount, s3result
+      else
+        header = 'Content-Length': stream.byteCount
+        s3.putStream upload.stream, loc, header, (s3result res)
     else
       console.error('Missing multipart fields')
       res.send 400
@@ -81,7 +83,16 @@ app.post('/showdesc', session, json, auth, (req, res)->
 app.get('/showdesc/:show', (req, res)->
     model.getShowDesc(req.params.show, res))
 
-app.post('/showreq', (req, res)-> res.send(200))
+app.post '/showreq', session, auth, (req, res)->
+  form = new multiparty.Form!
+  show = {}
+  form.on 'part', (part)!-> 
+    if part.filename
+      h = 'Content-Length': part.byteCount
+      s3.putStream part, ('/samples/' + req.user.show + path.extname(that)), h, (s3result res)
+  form.on 'field', (name, value)!-> show[name] = value
+  form.on 'close', !-> model.storeShow(req.user, show, req, res)
+  form.parse(req)
 
 # socketio responses
 server = http.createServer(app)

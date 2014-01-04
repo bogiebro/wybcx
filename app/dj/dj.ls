@@ -22,6 +22,10 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
         name: ''
         time: ''
         description: ''
+        hasimage: false
+
+    $scope.timetext = $scope.showinfo.time || 'No set time yet'
+    $scope.maybegray = if $scope.showinfo.time then '' else 'grayish'
 
     $scope.showimg = loggedin.show + '.jpg?a=' + new Date!.getTime!
 
@@ -92,7 +96,7 @@ dj.controller 'OnAirCtrl', ($scope, $http, socket, loggedin)->
     $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)
 
 # NewShowCtrl
-dj.controller 'NewShowCtrl', ($scope, $upload, $location)->
+dj.controller 'NewShowCtrl', ($scope, $upload, $location, loggedin)->
     $scope.dashboard = -> $location.url('dash')
 
     $scope.result =
@@ -107,6 +111,7 @@ dj.controller 'NewShowCtrl', ($scope, $upload, $location)->
             file: $scope.sample
             fileFormDataName: 'myFile'
         ).then((response)->
+            # loggedin.show = response.data.id
             $scope.result.finished = true
         , null, (evt)->
              $scope.result.progress = parseInt(100.0 * evt.loaded / evt.total))

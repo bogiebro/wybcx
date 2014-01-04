@@ -13,13 +13,26 @@ exports.verify = (username, pass, done)->
 
 exports.addAccount = (user, dept, pass)->
     err, result <- pool.query 'select id from adduser($1, $2, $3)', [user, dept, pass]
-    return if err then console.error err else result.uid
+    return if err then console.error err else result.id
 
 exports.setShowDesc = (show, desc)->
     err, result <- pool.query 'update shows set description = $2 where id = $1', [show, desc]
-    console.log(err) if err
+    console.error(err) if err
 
 exports.getShowDesc = (show, res)->
-    err, result <- pool.query 'select description, name, time from shows where id = $1', [show]
+    err, result <- pool.query(
+        'select description, name, time, hasimage from shows where id = $1', [show])
     if err then console.error err
     res.json(result.rows[0])
+
+exports.storeShow = (user, show, req, res)->
+    err, result <- pool.query(
+            'insert into shows (name, proptime, description) values ($1, $2, $3) returning id',
+            [show.name, show.times, show.description])
+    if err then console.error err else
+        showid = result.rows[0].id
+        err, result <- pool.query('update users set show = $1 where id = $2', [showid, user.id])
+        if err then console.error err
+        err <- req.login(user with show: showid)
+        if err then console.error err
+        res.json(id: showid)

@@ -1,0 +1,33 @@
+div(class="container")
+    .dash(ng-show="!requested")
+        h2 You haven't requested a show yet this semester. Want to?
+        button.down(class="btn btn-default", ng-click='requested = true') Request a show
+    .dash(ng-show='requested && !result.finished && !result.progress')
+        h2 Request a show
+        form.down(role='form', ng-submit='showReq(show)')
+            .row
+                .col-md-6
+                    .form-group
+                        label(for='showname') Show name
+                        input.form-control(type='text', ng-model='show.name', id='showname', placeholder='Enter show name', required)
+                    .form-group
+                        label(for='hosts') Co Hosts
+                        input.form-control(type='text', ng-model='show.hosts', id='hosts', placeholder='Enter other hosts', required)
+                    .form-group
+                        label(for='sample') Sample show
+                        input(type="file", id="sample", ng-file-select="onFileSelect($files)")
+                .col-md-6
+                    .form-group
+                        label(for='times') Possible Times
+                        textarea.form-control(rows='8', id='times', ng-model='show.times', required)
+            .row
+                .col-md-12
+                    .form-group
+                        label(for='desc') Description
+                        textarea.form-control(rows='5', ng-model='show.description', id="desc", required)
+                    button(type='submit', class='btn btn-default') Submit
+    .dash(ng-show='result.progress > 0 && !result.finished')
+        h3 Uploading: {{result.progress}}%
+    .dash(ng-show='result.finished')
+        h2 Your request has been sent. 
+        p You can edit the details on your show's <a ng-click='dashboard()'>dashboard</a>

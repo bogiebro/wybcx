@@ -20,5 +20,4 @@ exports.startRedis = (io)->
 exports.connect = (s) ->
   console.log('socket connected')
   s.on('chat', (data)->
-    console.log(data)
     pusher.publish('showchat', JSON.stringify(data)))

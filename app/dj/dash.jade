@@ -2,17 +2,18 @@ div.container
     .dash
         .row
             .col-xs-5(class="hidden-xs")
-                img.down(class='bordered', id="showpic", ng-file-drop="onImgSelect($files);", ng-src="#{AROOT}/image/{{ showimg }}")
+                img.down(ng-if='showinfo.hasimage', class='bordered', id="showpic", ng-file-drop="onImgSelect($files);", ng-src="#{AROOT}/image/{{ showimg }}")
+                div.down(ng-if="!showinfo.hasimage", class='bordered filler', ng-file-drop="onImgSelect($files);")<i>Drop a picture</i>
             .col-xs-7
                 h1 {{showinfo.name}}
-                h3.indent {{showinfo.time}}
+                h3.indent(ng-class='maybegray') {{timetext}}
                 .row(class="down")
                     .col-xs-4(class="hidden-xs")
                         div(ng-show="dropSupported", class="bordered drop-box", ng-file-drop="onPromoSelect($files);", ng-file-drop-available="dropSupported=true")
-                            | {{promotext()}}
+                            i {{promotext()}} 
                     .col-xs-5(class="hidden-xs")
                         div(ng-show="dropSupported", class="bordered drop-box", ng-file-drop="onRecSelect($files);", ng-file-drop-available="dropSupported=true")
-                            | {{rectext()}}
+                            i {{rectext()}}
                     .col-xs-3(class="smallright")
                         button(class="btn btn-lg btn-default", ng-click="onAir()") On Air
         p.desc(ng-show="!editing") {{showinfo.description}}

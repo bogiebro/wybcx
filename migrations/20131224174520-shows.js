@@ -6,7 +6,9 @@ exports.up = function(db, callback) {
         id: { type: 'serial', primaryKey: true },
         name: { type: 'varchar(64)', unique: true },
         description: 'text',
-        time: 'varchar(32)'
+        time: 'varchar(32)',
+        proptime: 'text',
+        hasimage: {type: 'boolean', defaultValue: false}
     }, callback)
 };
 

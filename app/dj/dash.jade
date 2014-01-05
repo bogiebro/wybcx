@@ -2,8 +2,8 @@ div.container
     .dash
         .row
             .col-xs-5(class="hidden-xs")
-                img.down(ng-if='showinfo.hasimage', class='bordered', id="showpic", ng-file-drop="onImgSelect($files);", ng-src="#{AROOT}/image/{{ showimg }}")
-                div.down(ng-if="!showinfo.hasimage", class='bordered filler', ng-file-drop="onImgSelect($files);")<i>Drop a picture</i>
+                img.down(ng-show='showinfo.hasimage', class='bordered', id="showpic", ng-file-drop="onImgSelect($files);", ng-src="#{AROOT}/image/{{ showimg }}")
+                div.down(ng-show="!showinfo.hasimage", class='bordered filler', ng-file-drop="onImgSelect($files);")<i>Drop a picture</i>
             .col-xs-7
                 h1 {{showinfo.name}}
                 h3.indent(ng-class='maybegray') {{timetext}}

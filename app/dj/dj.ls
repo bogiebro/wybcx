@@ -65,6 +65,7 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
 
     $scope.onImgSelect = ($files)->
         uploadThing($files, 'image', $scope.pic, ->
+            showinfo.hasimage = true
             $scope.showimg = loggedin.show + '.jpg?a=' + new Date!.getTime!)
 
     $scope.onPromoSelect = ($files)-> uploadThing($files, 'promo', $scope.promo)
@@ -111,7 +112,6 @@ dj.controller 'NewShowCtrl', ($scope, $upload, $location, loggedin)->
             file: $scope.sample
             fileFormDataName: 'myFile'
         ).then((response)->
-            # loggedin.show = response.data.id
             $scope.result.finished = true
         , null, (evt)->
              $scope.result.progress = parseInt(100.0 * evt.loaded / evt.total))

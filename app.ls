@@ -58,7 +58,6 @@ app.post '/upload', session, auth, (req, res)!->
   upload = {}
   form.on 'field', (name, value)!-> upload.dir = value if (name is 'uploadtype')
   form.on 'part', (part)!-> upload.stream = part if part.filename
-
   form.on 'close', !->
     if (upload.dir && upload.stream)
       n = upload.stream.filename
@@ -67,13 +66,13 @@ app.post '/upload', session, auth, (req, res)!->
         im(upload.stream, n).resize(250).setFormat('jpeg').toBuffer (err, buffer)!->
           if err then console.error err else
             s3.putBuffer(buffer, loc, {}, s3result)
+            model.hasImage(req.user.show)
       else
         header = 'Content-Length': stream.byteCount
         s3.putStream upload.stream, loc, header, (s3result res)
     else
       console.error('Missing multipart fields')
       res.send 400
-
   form.parse(req)
 
 app.post('/showdesc', session, json, auth, (req, res)->
@@ -89,7 +88,7 @@ app.post '/showreq', session, auth, (req, res)->
   form.on 'part', (part)!-> 
     if part.filename
       h = 'Content-Length': part.byteCount
-      s3.putStream part, ('/samples/' + req.user.show + path.extname(that)), h, (s3result res)
+      s3.putStream part, ('/samples/' + req.user.show + '/' + that), h, (s3result res)
   form.on 'field', (name, value)!-> show[name] = value
   form.on 'close', !-> model.storeShow(req.user, show, req, res)
   form.parse(req)

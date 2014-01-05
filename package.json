@@ -28,7 +28,8 @@
     "any-db-postgres": "*",
     "knox": "~0.8.8",
     "gm": "~1.14.2",
-    "multiparty": "~3.1.1"
+    "multiparty": "~3.1.1",
+    "async": "~0.2.9"
   },
   "devDependencies": {
     "lazy": "~1.0.11"

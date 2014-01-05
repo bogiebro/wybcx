@@ -16,7 +16,7 @@ dj.controller('BlogCtrl', ($scope, $http)->)
 dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
     if loggedin.show
         $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
-    else $location.url('newshow')
+    else $location.url('/newshow')
 
     $scope.showinfo =
         name: ''
@@ -65,7 +65,7 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
 
     $scope.onImgSelect = ($files)->
         uploadThing($files, 'image', $scope.pic, ->
-            showinfo.hasimage = true
+            $scope.showinfo.hasimage = true
             $scope.showimg = loggedin.show + '.jpg?a=' + new Date!.getTime!)
 
     $scope.onPromoSelect = ($files)-> uploadThing($files, 'promo', $scope.promo)

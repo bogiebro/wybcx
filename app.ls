@@ -65,7 +65,7 @@ app.post '/upload', session, auth, (req, res)!->
       if n is /png|jpg|jpeg|pdf/i
         im(upload.stream, n).resize(250).setFormat('jpeg').toBuffer (err, buffer)!->
           if err then console.error err else
-            s3.putBuffer(buffer, loc, {}, s3result)
+            s3.putBuffer(buffer, loc, {}, s3result res)
             model.hasImage(req.user.show)
       else
         header = 'Content-Length': stream.byteCount

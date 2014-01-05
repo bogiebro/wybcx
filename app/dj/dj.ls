@@ -14,15 +14,15 @@ dj.controller('BlogCtrl', ($scope, $http)->)
 
 # DashCtrl
 dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
-    if loggedin.show
-        $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
-    else $location.url('/newshow')
-
     $scope.showinfo =
         name: ''
         time: ''
         description: ''
         hasimage: false
+
+    if loggedin.show
+        $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
+    else $location.url('/newshow')
 
     $scope.timetext = $scope.showinfo.time || 'No set time yet'
     $scope.maybegray = if $scope.showinfo.time then '' else 'grayish'
@@ -74,6 +74,14 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
 
 # OnAirCtrl
 dj.controller 'OnAirCtrl', ($scope, $http, socket, loggedin)->
+    # we shouldn't need to get this twice. maybe a service?
+    if loggedin.show
+        $http.get('/showdesc/' + loggedin.show).success (d)->
+            $scope.showinfo = d
+            socket.emit 'show' do
+                name: d.name
+    else $location.url('/newshow')
+
     $scope.info =
         chatter: ''
         song: ''

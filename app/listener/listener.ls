@@ -16,15 +16,20 @@ listener.service("chatstate", ->
     name: null
     chats: [])
 
-listener.controller('ListenCtrl', ($scope, socket, $modal, chatstate)->
+listener.controller('ListenCtrl', ($scope, socket, $modal, chatstate, $log)->
+    $scope.playing =
+      name: 'WYBC Automation'
+      hosts: 'our robot djs'
     $scope.glued = true
     socket.forward('chat', $scope)
     $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)
+    socket.forward('show', $scope)
+    $scope.$on('socket:show', (ev, data)-> $scope.playing = data)
 
     $scope.chats = chatstate.chats
     $scope.conf = chatstate
 
-    $scope.playlist = [src: 'http://wybc.com:8000/x.mp3', type: 'audio/mp3']
+    $scope.playlist = [src: 'http://wybc.com:8000/x.mp3']
 
     $scope.makeChatter = ->
         socket.emit('chat',

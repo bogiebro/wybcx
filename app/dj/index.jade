@@ -7,6 +7,10 @@ html(ng-app="djApp")
     link(rel='stylesheet', href=SROOT + "/css/utilities.css")
     link(rel="shortcut icon", type="image/x-icon", href=SROOT + "/img/goat.png")
 
+  body
+    h1(class="djlogo hidden-xs") WYBC DJ
+    div(ng-view)
+
     script(src=SROOT + '/angular-file-upload-html5-shim.min.js')
     script(src="/socket.io/socket.io.js")
     script(src=SROOT + '/js/vendor.js')
@@ -15,7 +19,3 @@ html(ng-app="djApp")
     script(src=SROOT + "/js/utilities.js")
     script(src=SROOT + "/js/app.dj.templates.js")
     script(src=SROOT + "/js/app.templates.js")
-
-  body
-    h1(class="djlogo hidden-xs") WYBC DJ
-    div(ng-view)

@@ -13,17 +13,25 @@ exports.startRedis = (io)->
     subscriber := redisClient!
     pusher := redisClient!
     subscriber.on("message", (channel, message)->
-        io.sockets.emit('chat', JSON.parse(message)))
-    subscriber.subscribe("showchat")
+        io.sockets.emit(channel, JSON.parse(message)))
+    subscriber.subscribe("chat")
+    subscriber.subscribe("show")
+
+disconnect = (s)->
+    robot = JSON.stringify(name: 'Automation', dj: 'wybc robot djs')
+    pusher.set('showinfo', robot)
+    pusher.publish('show', robot)
 
 exports.connect = (s) ->
+    s.on('disconnect', disconnect)
     pusher.get 'showinfo', (err, reply)->
         if err then console.error err
         else
-            console.log('sending reply ' + reply)
-            s.emit('show', JSON.parse(reply))
+            res = if reply then JSON.parse reply
+                  else {name: 'Automation', dj: 'wybc robot djs'}
+            s.emit('show', res)
     s.on('chat', (data)->
-      pusher.publish('showchat', JSON.stringify(data)))
+      pusher.publish('chat', JSON.stringify(data)))
     s.on('show', (data)->
       pusher.set('showinfo', JSON.stringify(data))
-      pusher.publish('showchat', JSON.stringify(data)))
+      pusher.publish('show', JSON.stringify(data)))

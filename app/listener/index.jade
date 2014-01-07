@@ -7,13 +7,6 @@ html(ng-app="listenApp")
     link(rel='stylesheet', href=SROOT + "/css/listener.css")
     link(rel="shortcut icon", type="image/x-icon", href=SROOT + "/img/goat.png")
 
-    script(src="/socket.io/socket.io.js")
-    script(src=SROOT + "/js/vendor.js")
-    script(src=SROOT + "/js/listener.js")
-    script(src=SROOT + "/js/utilities.js")
-    script(src=SROOT + "/js/app.listener.templates.js")
-    script(src=SROOT + "/js/app.templates.js")
-
   body(ng-controller="MainCtrl")
     h1(class="wybclogo hidden-xs") WYBC
     tabset(class="atright hidden-xs")
@@ -23,3 +16,10 @@ html(ng-app="listenApp")
         tab(heading="zine", select="doit('/zine')")
     div.container
         div(ng-view)
+
+    script(src="/socket.io/socket.io.js")
+    script(src=SROOT + "/js/vendor.js")
+    script(src=SROOT + "/js/listener.js")
+    script(src=SROOT + "/js/utilities.js")
+    script(src=SROOT + "/js/app.listener.templates.js")
+    script(src=SROOT + "/js/app.templates.js")

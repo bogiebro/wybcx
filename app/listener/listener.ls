@@ -1,6 +1,6 @@
 listener = angular.module("listenApp", [ 'ngRoute',
-    'ui.bootstrap', 'luegg.directives', 'btford.socket-io',
-    'app.listener.templates', 'audioPlayer'])
+    'ui.bootstrap', 'luegg.directives', 'chatinfo',
+    'app.listener.templates'])
 
 listener.config(($routeProvider)->
     $routeProvider.
@@ -10,45 +10,21 @@ listener.config(($routeProvider)->
       when('/zine', {controller:'ZineCtrl', templateUrl:'app/listener/zine.jade'}).
       otherwise({redirectTo: '/'}))
 
-listener.factory('socket', (socketFactory)-> return socketFactory!)
-
-listener.service("chatstate", ->
-    name: null
-    chats: [])
-
-listener.controller('ListenCtrl', ($scope, socket, $modal, chatstate, $log)->
-    $scope.playing =
-      name: 'WYBC Automation'
-      hosts: 'our robot djs'
+listener.controller 'ListenCtrl', ($scope, $modal, chatinfo, $log)->
+    $scope.chatinfo = chatinfo
     $scope.glued = true
-    socket.forward('chat', $scope)
-    $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)
-    socket.forward('show', $scope)
-    $scope.$on('socket:show', (ev, data)-> $scope.playing = data)
-
-    $scope.chats = chatstate.chats
-    $scope.conf = chatstate
 
     $scope.playlist = [src: 'http://wybc.com:8000/x.mp3']
 
-    $scope.makeChatter = ->
-        socket.emit('chat',
-          type: 'chat'
-          speaker: $scope.conf.name
-          content: $scope.chatter)
-        $scope.chatter = ""
-
     $scope.$on('$viewContentLoaded', ->
-        if !chatstate.name
+        if !chatinfo.name
             $modal.open(
                 backdrop: 'static'
                 keyboard: false
                 templateUrl: 'askId'
-                controller: ($scope, $modalInstance, conf)->
-                    $scope.conf = conf
-                    $scope.submit = -> $modalInstance.dismiss('cancel')
-                resolve:
-                    conf: -> return $scope.conf)))
+                controller: ($scope, $modalInstance, chatinfo)->
+                    $scope.chatinfo = chatinfo
+                    $scope.submit = -> $modalInstance.dismiss('cancel')))
 
 listener.controller('MainCtrl', ($scope, $location)->
     $scope.doit = (route)-> $location.path(route))

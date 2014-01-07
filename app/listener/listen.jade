@@ -1,22 +1,23 @@
 h2 {{playing.name}}
 h5.hidden-xs with Sam and David
-p.mute(ng-class="{nomute: stream.muted}", ng-click="stream.toggleMute()") mute
+//- p.mute(ng-class="{nomute: stream.muted}", ng-click="stream.toggleMute()") mute
+p.mute mute
 div(scroll-glue, class="well chatbox")
-    div(ng-repeat="chat in chats")
+    div(ng-repeat="chat in chatinfo.chats")
         div(ng-switch="chat.type")
             .chatitem(ng-switch-when="chat") <b>{{chat.speaker}}</b>
                 span.says {{chat.content}}
             .announce(ng-switch-when="announce") {{chat.content}}
 
-form(class="navbar-form", ng-submit="makeChatter()")
-    input(type="text", ng-model="chatter", placeholder="Chat about the show", class="form-control")
+form(class="navbar-form", ng-submit="chatinfo.makeChatter()")
+    input(type="text", ng-model="chatinfo.chatter", placeholder="Chat about the show", class="form-control")
 
-audio.hidden(autoplay='true', data-playlist="playlist", data-player-control="stream", audio-player)
+//- audio.hidden(autoplay='true', data-playlist="playlist", data-player-control="stream", audio-player)
 
 script(type="text/ng-template", id="askId")
     div.modal-header
         h3 What should we call you?
     div.modal-body
         form(class="navbar-form", ng-submit="submit()")
-            input(type="text", ng-model="conf.name", placeholder="Give us your chat handle", class="form-control")
+            input(type="text", ng-model="chatinfo.name", placeholder="Give us your chat handle", class="form-control")
     div.modal-footer

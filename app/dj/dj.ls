@@ -1,5 +1,5 @@
 dj = angular.module("djApp", ['ui.bootstrap', 'ngRoute', 'ui.bootstrap.tpls',
-        'angularFileUpload', 'luegg.directives', 'app.dj.templates', 'btford.socket-io',
+        'angularFileUpload', 'luegg.directives', 'app.dj.templates', 'chatinfo'
         'login']).config(($routeProvider, $locationProvider, check)->
     $routeProvider.
         when('/dash', {controller:'DashCtrl', templateUrl:'app/dj/dash.jade', resolve: check}).
@@ -7,8 +7,6 @@ dj = angular.module("djApp", ['ui.bootstrap', 'ngRoute', 'ui.bootstrap.tpls',
         when('/onair', {controller:'OnAirCtrl', templateUrl:'app/dj/onair.jade', resolve: check}).
         when('/blog', {controller:'BlogCtrl', templateUrl:'app/dj/blog.jade', resolve: check}).
         when('/', {redirectTo: '/dash'}))
-
-dj.factory('socket', (socketFactory)-> return socketFactory!)
 
 dj.controller('BlogCtrl', ($scope, $http)->)
 
@@ -21,7 +19,7 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
         hasimage: false
 
     if loggedin.show
-        $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo = d)
+        $http.get('/showdesc/' + loggedin.show).success((d)-> $scope.showinfo <<< d)
     else $location.url('/newshow')
 
     $scope.timetext = $scope.showinfo.time || 'No set time yet'
@@ -73,36 +71,11 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
     $scope.onRecSelect = ($files)-> uploadThing($files, 'rec', $scope.rec)
 
 # OnAirCtrl
-dj.controller 'OnAirCtrl', ($scope, $http, socket, loggedin)->
-    # we shouldn't need to get this twice. maybe a service?
-    if loggedin.show
-        $http.get('/showdesc/' + loggedin.show).success (d)->
-            $scope.showinfo = d
-            socket.emit 'show' do
-                name: d.name
+dj.controller 'OnAirCtrl', ($scope, $http, chatinfo)->
+    if loggedin.show then $http.post('/onair')
     else $location.url('/newshow')
-
-    $scope.info =
-        chatter: ''
-        song: ''
-
-    $scope.makeChatter = ->
-        socket.emit 'chat' do
-          type: 'chat'
-          speaker: loggedin.username
-          content: $scope.info.chatter
-        $scope.info.chatter = ""
-
-    $scope.announce = ->
-        socket.emit 'chat' do
-            type: 'announce'
-            content: $scope.info.song
-        $scope.info.song = ""
-
     $scope.glued = true
-    $scope.chats = []
-    socket.forward('chat', $scope)
-    $scope.$on('socket:chat', (ev, data)-> $scope.chats.push data)
+    $scope.chatinfo = chatinfo
 
 # NewShowCtrl
 dj.controller 'NewShowCtrl', ($scope, $upload, $location, loggedin)->

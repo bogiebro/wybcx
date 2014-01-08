@@ -1,7 +1,6 @@
 h2 {{chatinfo.show.name}}
 h5.hidden-xs {{chatinfo.show.hosts}}
-//- p.mute(ng-class="{nomute: stream.muted}", ng-click="stream.toggleMute()") mute
-p.mute mute
+p.mute(ng-class="{nomute: stream.muted}", ng-click="stream.toggleMute()") mute
 div(scroll-glue, class="well chatbox")
     div(ng-repeat="chat in chatinfo.chats")
         div(ng-switch="chat.type")
@@ -14,7 +13,7 @@ div(scroll-glue, class="well chatbox")
 form(class="navbar-form", ng-submit="chatinfo.makeChatter()")
     input(type="text", ng-model="chatinfo.chatter", placeholder="Chat about the show", class="form-control")
 
-//- audio.hidden(autoplay='true', data-playlist="playlist", data-player-control="stream", audio-player)
+audio.hidden(autoplay='true', data-playlist="playlist", data-player-control="stream", audio-player)
 
 script(type="text/ng-template", id="askId")
     div.modal-header

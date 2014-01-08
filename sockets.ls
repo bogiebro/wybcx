@@ -36,12 +36,12 @@ exports.connect = (s) ->
 
 exports.sendChat = (data)-> pusher.publish('chat', JSON.stringify(data))
 
-djOn = (show)->
+exports.djOn = (show)->
     str = JSON.stringify(show{name, hosts, id})
     pusher.set('showinfo', str)
     pusher.publish('show', str)
 
-djOff = (showid)->
+exports.djOff = (showid)->
     pusher.get 'showinfo', (err, reply)->
         if reply && showid is (JSON.parse reply).id
             djOn(name: 'Automation', hosts: 'wybc robot djs')

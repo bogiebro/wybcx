@@ -77,7 +77,6 @@ dj.controller 'OnAirCtrl', ($scope, $http, loggedin, chatinfo)->
         chatinfo.join(loggedin.username)
         chatinfo.djJoin!
         $scope.glued = true
-        $scope.chatinfo = chatinfo
 
 # NewShowCtrl
 dj.controller 'NewShowCtrl', ($scope, $upload, $location, loggedin)->

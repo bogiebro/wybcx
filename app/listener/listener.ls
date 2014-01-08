@@ -1,6 +1,6 @@
-listener = angular.module("listenApp", [ 'ngRoute',
+listener = angular.module("listenApp", ['ngRoute',
     'ui.bootstrap', 'luegg.directives', 'chatinfo',
-    'app.listener.templates'])
+    'app.listener.templates', 'audioPlayer'])
 
 listener.config(($routeProvider)->
     $routeProvider.

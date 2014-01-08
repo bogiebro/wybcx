@@ -3,7 +3,7 @@ div(class="container")
         div(scroll-glue, class="well chatbox")
             div(ng-repeat="chat in chatinfo.chats")
                 div(ng-switch="chat.type")
-                    .chatitem(ng-switch-when="chat") <b>{{chat.speaker}}</b>
+                    .chatitem(ng-switch-when="chat") <b>{{chat.name}}</b>
                         span.says {{chat.content}}
                     .announce(ng-switch-when="announce") {{chat.content}}
                     .notify(ng-switch-when="join") {{chat.name}} is listening

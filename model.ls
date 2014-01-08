@@ -19,14 +19,14 @@ exports.setShowDesc = (show, desc)->
     err, result <- pool.query 'update shows set description = $2 where id = $1', [show, desc]
     console.error(err) if err
 
-exports.getShowDesc = (show, cb)->
+exports.getShowDesc = (show, cb, ecb)->
     err, result <- pool.query(
         'select description, name, time, hasimage from shows where id = $1', [show])
-    if err then console.error err; res.send(500)
+    if err && ecb then ecb(err)
     else cb(result.rows[0])
 
 exports.hasImage = (show)->
-    pool.query('update shows set hasimage = true where id = $1', [show])
+    pool.query('update shows set hasimage = true where id = $1', [show], ->)
 
 exports.storeShow = (user, show, req, res)->
     async.waterfall do

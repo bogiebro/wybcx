@@ -79,8 +79,10 @@ app.post('/showdesc', session, json, auth, (req, res)->
     model.setShowDesc(req.user.show, req.body.desc)
     res.send(200))
 
-app.get('/showdesc/:show', (req, res)->
-    model.getShowDesc(req.params.show, res.json))
+app.get '/showdesc/:show', (req, res)!->
+    model.getShowDesc(req.params.show,
+      (res.json _),
+      (err)-> res.send 500)
 
 app.post '/showreq', session, auth, (req, res)->
   form = new multiparty.Form!

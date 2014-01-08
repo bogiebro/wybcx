@@ -1,13 +1,15 @@
-h2 {{playing.name}}
-h5.hidden-xs with Sam and David
+h2 {{chatinfo.show.name}}
+h5.hidden-xs {{chatinfo.show.hosts}}
 //- p.mute(ng-class="{nomute: stream.muted}", ng-click="stream.toggleMute()") mute
 p.mute mute
 div(scroll-glue, class="well chatbox")
     div(ng-repeat="chat in chatinfo.chats")
         div(ng-switch="chat.type")
-            .chatitem(ng-switch-when="chat") <b>{{chat.speaker}}</b>
+            .chatitem(ng-switch-when="chat") <b>{{chat.name}}</b>
                 span.says {{chat.content}}
             .announce(ng-switch-when="announce") {{chat.content}}
+            .notify(ng-switch-when="join") {{chat.name}} is listening
+            .notify(ng-switch-when="leave") {{chat.name}} stopped listening
 
 form(class="navbar-form", ng-submit="chatinfo.makeChatter()")
     input(type="text", ng-model="chatinfo.chatter", placeholder="Chat about the show", class="form-control")
@@ -19,5 +21,5 @@ script(type="text/ng-template", id="askId")
         h3 What should we call you?
     div.modal-body
         form(class="navbar-form", ng-submit="submit()")
-            input(type="text", ng-model="chatinfo.name", placeholder="Give us your chat handle", class="form-control")
+            input(type="text", ng-model="my.nickname", placeholder="Give us your chat handle", class="form-control")
     div.modal-footer

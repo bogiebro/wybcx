@@ -1,5 +1,5 @@
 dj = angular.module("djApp", ['ui.bootstrap', 'ngRoute', 'ui.bootstrap.tpls',
-        'angularFileUpload', 'luegg.directives', 'app.dj.templates', 'chatinfo'
+        'angularFileUpload', 'luegg.directives', 'app.dj.templates', 'chatinfo',
         'login']).config(($routeProvider, $locationProvider, check)->
     $routeProvider.
         when('/dash', {controller:'DashCtrl', templateUrl:'app/dj/dash.jade', resolve: check}).
@@ -71,11 +71,13 @@ dj.controller 'DashCtrl', ($scope, $upload, $location, $http, loggedin)->
     $scope.onRecSelect = ($files)-> uploadThing($files, 'rec', $scope.rec)
 
 # OnAirCtrl
-dj.controller 'OnAirCtrl', ($scope, $http, chatinfo)->
-    if loggedin.show then $http.post('/onair')
-    else $location.url('/newshow')
-    $scope.glued = true
-    $scope.chatinfo = chatinfo
+dj.controller 'OnAirCtrl', ($scope, $http, loggedin, chatinfo)->
+    if !loggedin.show then $location.url('/newshow') else
+        $scope.chatinfo = chatinfo
+        chatinfo.join(loggedin.username)
+        chatinfo.djJoin!
+        $scope.glued = true
+        $scope.chatinfo = chatinfo
 
 # NewShowCtrl
 dj.controller 'NewShowCtrl', ($scope, $upload, $location, loggedin)->

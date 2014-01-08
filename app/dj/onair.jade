@@ -1,18 +1,20 @@
 div(class="container")
     .inyoface
         div(scroll-glue, class="well chatbox")
-            div(ng-repeat="chat in chats")
+            div(ng-repeat="chat in chatinfo.chats")
                 div(ng-switch="chat.type")
                     .chatitem(ng-switch-when="chat") <b>{{chat.speaker}}</b>
                         span.says {{chat.content}}
                     .announce(ng-switch-when="announce") {{chat.content}}
+                    .notify(ng-switch-when="join") {{chat.name}} is listening
+                    .notify(ng-switch-when="leave") {{chat.name}} stopped listening
         tabset
             tab(heading="chat")
-                form.spacer(ng-submit="makeChatter()")
-                    input(type="text", ng-model="info.chatter", placeholder="Chat about the show", class="form-control")
+                form.spacer(ng-submit="chatinfo.makeChatter()")
+                    input(type="text", ng-model="chatinfo.chatter", placeholder="Chat about the show", class="form-control")
             tab(heading="log a song")
-                form.spacer(ng-submit="announce()")
-                    input(type="text", ng-model="info.song", placeholder="Song (Artist – Album)", class="form-control")
+                form.spacer(ng-submit="chatinfo.announce()")
+                    input(type="text", ng-model="chatinfo.song", placeholder="Song (Artist – Album)", class="form-control")
             tab(heading="soundboard")
                 div.sounds(class="spacer")
                     a.wellspaced WYBC Promo

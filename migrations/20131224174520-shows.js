@@ -8,7 +8,8 @@ exports.up = function(db, callback) {
         description: 'text',
         time: 'varchar(32)',
         proptime: 'text',
-        hasimage: {type: 'boolean', defaultValue: false}
+        hasimage: {type: 'boolean', defaultValue: false},
+        hosts: { type: 'varchar(64)' }
     }, callback)
 };
 

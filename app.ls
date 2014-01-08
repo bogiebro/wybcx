@@ -80,7 +80,7 @@ app.post('/showdesc', session, json, auth, (req, res)->
     res.send(200))
 
 app.get('/showdesc/:show', (req, res)->
-    model.getShowDesc(req.params.show, res))
+    model.getShowDesc(req.params.show, res.json))
 
 app.post '/showreq', session, auth, (req, res)->
   form = new multiparty.Form!
@@ -92,6 +92,18 @@ app.post '/showreq', session, auth, (req, res)->
   form.on 'field', (name, value)!-> show[name] = value
   form.on 'close', !-> model.storeShow(req.user, show, req, res)
   form.parse(req)
+
+app.post('/onair', session, auth, (req, res)->
+  model.getShowDesc(req.user.show, sockets.djOn)
+  res.send(200))
+
+app.post('/offair', session, auth, (req, res)->
+  sockets.djOff(req.user.show)
+  res.send(200))
+
+app.post('/djdo', json, session, auth, (req, res)->
+  sockets.sendChat(req.body)
+  res.send(200))
 
 # socketio responses
 server = http.createServer(app)

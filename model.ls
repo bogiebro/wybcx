@@ -1,6 +1,7 @@
 db = require 'any-db'
 async = require 'async'
 pool = db.createPool(process.env.DATABASE_URL, {min: 2, max: 20})
+{map} = require 'prelude-ls'
 
 exports.verify = (username, pass, done)->
     err, result <- pool.query 'select id, username, show from users where username = $1 
@@ -21,7 +22,7 @@ exports.setShowDesc = (show, desc)->
 
 exports.getShowDesc = (show, cb, ecb)->
     err, result <- pool.query(
-        'select description, name, time, hasimage from shows where id = $1', [show])
+        'select description, name, time, hasimage, hosts from shows where id = $1', [show])
     if err && ecb then ecb(err)
     else cb(result.rows[0])
 
@@ -38,3 +39,11 @@ exports.storeShow = (user, show, req, res)->
         , (err, result)->
             if err then console.error err; res.send(500)
             else res.json(id: result.rows[0].show)
+
+exports.findHosts = (search, cb)->
+    console.log(search + '%')
+    err, result <- pool.query('select username from users where username like $1', [search + '%'])
+    console.error(err) if err
+    res = map((.username), result.rows)
+    console.log(res)
+    cb(res)

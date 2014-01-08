@@ -11,8 +11,9 @@ div(class="container")
                         label(for='showname') Show name
                         input.form-control(type='text', ng-model='show.name', id='showname', placeholder='Enter show name', required)
                     .form-group
-                        label(for='hosts') Co Hosts
-                        input.form-control(type='text', ng-model='show.hosts', id='hosts', placeholder='Enter other hosts', required)
+                        label(for='hosts') Co Host
+                        input.form-control(type='text', ng-model='show.cohost', id='hosts', placeholder='Enter other hosts', 
+                            typeahead='address for address in getHost($viewValue) | filter:$viewValue', required)
                     .form-group
                         label(for='sample') Sample show
                         input(type="file", id="sample", ng-file-select="onFileSelect($files)")

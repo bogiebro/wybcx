@@ -79,12 +79,14 @@ dj.controller 'OnAirCtrl', ($scope, $http, loggedin, chatinfo)->
         $scope.glued = true
 
 # NewShowCtrl
-dj.controller 'NewShowCtrl', ($scope, $upload, $location, loggedin)->
+dj.controller 'NewShowCtrl', ($scope, $upload, $location, $http, loggedin)->
     $scope.dashboard = -> $location.url('dash')
 
     $scope.result =
         progress: 0
         finished: false
+
+    $scope.getHost = (val)-> $http.get('/hosts', params: {search: val}).then((.data))
 
     $scope.showReq = (show)->
         $upload.upload(

@@ -107,6 +107,8 @@ app.post('/djdo', json, session, auth, (req, res)->
   sockets.sendChat(req.body)
   res.send(200))
 
+app.get('/hosts', (req, res)-> model.findHosts(req.query.search, res.json _))
+
 # socketio responses
 server = http.createServer(app)
 ioapp = io.listen(server)

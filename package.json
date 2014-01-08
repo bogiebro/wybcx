@@ -29,7 +29,8 @@
     "knox": "~0.8.8",
     "gm": "~1.14.2",
     "multiparty": "~3.1.1",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "prelude-ls": "~1.0.3"
   },
   "devDependencies": {
     "lazy": "~1.0.11"

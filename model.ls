@@ -1,7 +1,6 @@
 db = require 'any-db'
 async = require 'async'
 pool = db.createPool(process.env.DATABASE_URL, {min: 2, max: 20})
-{map} = require 'prelude-ls'
 
 exports.verify = (username, pass, done)->
     err, result <- pool.query 'select id, username, show from users where username = $1 
@@ -27,23 +26,23 @@ exports.getShowDesc = (show, cb, ecb)->
     else cb(result.rows[0])
 
 exports.hasImage = (show)->
-    pool.query('update shows set hasimage = true where id = $1', [show], ->)
+    pool.query('update shows set hasimage = true where id = $1', [show])
 
 exports.storeShow = (user, show, req, res)->
-    async.waterfall do
+    hosts = if show.cohost then user.username + ' and ' + show.cohost else user.username
+    async.waterfall [
         pool.query(
-            'insert into shows (name, proptime, description) values ($1, $2, $3) returning id',
-            [show.name, show.times, show.description], _)
-        pool.query('update users set show = $1 where id = $2 returning show',
-            [_.rows[0].id, user.id], _)
+            'insert into shows (name, proptime, description, hosts) values ($1, $2, $3, $4) returning id',
+            [show.name, show.times, show.description, hosts], _),
+        (val, cb)-> pool.query('update users set show = $1 where id = $2 or username = $3 returning show',
+            [val.rows[0].id, user.id, show.cohost or ''], cb),
+        (val, cb)-> req.login(user with show: val.rows[0].show, cb)]
         , (err, result)->
             if err then console.error err; res.send(500)
-            else res.json(id: result.rows[0].show)
+            else res.send(200)
 
 exports.findHosts = (search, cb)->
-    console.log(search + '%')
     err, result <- pool.query('select username from users where username like $1', [search + '%'])
     console.error(err) if err
-    res = map((.username), result.rows)
-    console.log(res)
+    res = result.rows.map((.username))
     cb(res)
